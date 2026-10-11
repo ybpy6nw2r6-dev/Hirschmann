@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>Auto und Ampel Animation</title>
+<style>
+  body {
+    background: #87CEEB;
+    overflow: hidden;
+    margin: 0;
+  }
+  .straße {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    background: #555;
+    top: 200px;
+  }
+  .auto {
+    position: absolute;
+    left: 0;
+    bottom: 40px;
+    width: 100px;
+    height: 50px;
+    background: red;
+    border-radius: 10px;
+    transition: left linear;
+  }
+  .ampel {
+    position: absolute;
+    width: 40px;
+    height: 100px;
+    background: black;
+    border-radius: 5px;
+    padding: 5px;
+  }
+  .licht {
+    width: 30px;
+    height: 30px;
+    margin: 5px auto;
+    border-radius: 50%;
+    background: gray;
+  }
+</style>
+</head>
+<body>
+<div class="straße">
+  <div class="auto" id="auto"></div>
+
+  <!-- Erste Ampel -->
+  <div class="ampel" style="left:400px; bottom:120px;">
+    <div class="licht" id="rot1"></div>
+    <div class="licht" id="gelb1"></div>
+    <div class="licht" id="gruen1"></div>
+  </div>
+
+  <!-- Zweite Ampel -->
+  <div class="ampel" style="left:800px; bottom:120px;">
+    <div class="licht" id="rot2"></div>
+    <div class="licht" id="gelb2"></div>
+    <div class="licht" id="gruen2"></div>
+  </div>
+</div>
+
+<script>
+const auto = document.getElementById("auto");
+
+function setAmpel(rot, gelb, gruen, zustand) {
+  rot.style.background = "gray";
+  gelb.style.background = "gray";
+  gruen.style.background = "gray";
+
+  if (zustand === "rot") rot.style.background = "red";
+  if (zustand === "gelb") gelb.style.background = "gold";
+  if (zustand === "gruen") gruen.style.background = "green";
+}
+
+const rot1 = document.getElementById("rot1");
+const gelb1 = document.getElementById("gelb1");
+const gruen1 = document.getElementById("gruen1");
+
+const rot2 = document.getElementById("rot2");
+const gelb2 = document.getElementById("gelb2");
+const gruen2 = document.getElementById("gruen2");
+
+// Startbedingungen: beide Ampeln rot
+setAmpel(rot1, gelb1, gruen1, "rot");
+setAmpel(rot2, gelb2, gruen2, "rot");
+
+// Zeitplan für Animation
+setTimeout(() => {
+  // Auto fährt zur 1. Ampel
+  auto.style.transition = "left 4s linear";
+  auto.style.left = "350px";
+}, 1000);
+
+setTimeout(() => {
+  // Ampel 1 schaltet gelb
+  setAmpel(rot1, gelb1, gruen1, "gelb");
+}, 5000);
+
+setTimeout(() => {
+  // Ampel 1 grün -> Auto fährt weiter
+  setAmpel(rot1, gelb1, gruen1, "gruen");
+  auto.style.transition = "left 4s linear";
+  auto.style.left = "750px";
+}, 7000);
+
+setTimeout(() => {
+  // Zweite Ampel bleibt rot -> Auto bremst davor ab
+  auto.style.transition = "left 3s linear";
+  auto.style.left = "780px";
+}, 11000);
+
+setTimeout(() => {
+  // Ampel 2 auf gelb
+  setAmpel(rot2, gelb2, gruen2, "gelb");
+}, 14000);
+
+setTimeout(() => {
+  // Ampel 2 grün -> Auto fährt weiter
+  setAmpel(rot2, gelb2, gruen2, "gruen");
+  auto.style.transition = "left 5s linear";
+  auto.style.left = "1200px";
+}, 16000);
+</script>
+</body>
+</html>
