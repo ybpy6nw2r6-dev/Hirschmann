@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kraft, Masse und Beschleunigung – Experiment</title>
+<style>
+:root{--blue:#155eef;--navy:#17324d;--teal:#087e8b;--paper:#f4f7fb;--line:#d7e0ea;--green:#137a45;--red:#b42318}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:#182230;font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}header{background:linear-gradient(120deg,#123b65,#176b87);color:#fff;padding:26px 20px}header .wrap,main{max-width:1100px;margin:auto}h1{margin:0 0 6px;font-size:clamp(1.5rem,4vw,2.2rem)}header p{margin:0;opacity:.92}main{padding:20px}.card{background:white;border:1px solid var(--line);border-radius:14px;padding:18px;margin:0 0 18px;box-shadow:0 3px 12px #17324d0a}.card h2{font-size:1.25rem;color:var(--navy);margin:0 0 12px}.controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}.control{background:#f7f9fc;border-radius:10px;padding:12px}.control label{font-weight:650;display:flex;justify-content:space-between;gap:8px}.control input[type=range]{width:100%;accent-color:var(--blue);margin:12px 0 4px}.value{color:var(--blue);font-variant-numeric:tabular-nums}.actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:14px}button{border:0;border-radius:9px;padding:10px 16px;font:inherit;font-weight:700;cursor:pointer;background:var(--blue);color:white}button.secondary{background:#e9eef5;color:#20364d}button:disabled{opacity:.55;cursor:default}.status{font-weight:650}.readouts{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}.pill{border-radius:999px;background:#edf4ff;padding:6px 12px;font-size:.95rem}.stage{overflow:hidden;background:linear-gradient(#eef8ff 0 67%,#dce8d9 67%);border:1px solid var(--line);border-radius:12px;position:relative;height:185px;margin:12px 0 8px}.track{position:absolute;left:0;right:0;bottom:38px;height:5px;background:#65717d}.cart{position:absolute;bottom:43px;left:5%;width:76px;height:43px;background:#f09b32;border:3px solid #935519;border-radius:7px 7px 3px 3px;transform:translateX(0)}.cart:before{content:"";position:absolute;left:12px;top:-17px;width:45px;height:18px;background:#f7bc62;border:3px solid #935519;border-bottom:0;border-radius:8px 8px 0 0}.wheel{position:absolute;bottom:-13px;width:19px;height:19px;border-radius:50%;background:#253746;border:3px solid white}.wheel.one{left:9px}.wheel.two{right:9px}.arrow{position:absolute;top:24px;left:24px;color:#155eef;font-size:1.4rem;font-weight:700}.chart-wrap{position:relative}.chart{display:block;width:100%;height:275px;border:1px solid #e0e7ef;border-radius:10px;background:#fff}.hint{font-size:.92rem;color:#526273;margin:8px 0 0}.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:.9rem;margin-top:6px}.key{display:inline-block;width:16px;height:4px;vertical-align:middle;margin-right:5px;background:#155eef}.key.orange{background:#f08c00}.key.green{background:#159455}.split{display:grid;grid-template-columns:1fr 1fr;gap:18px}.formula{display:flex;align-items:center;gap:8px;flex-wrap:wrap;background:#f7f9fc;padding:12px;border-radius:10px;margin:10px 0}.formula .target{min-width:85px;font-weight:700}.mathinput{width:45px;height:42px;border:2px solid #aebdcd;border-radius:7px;text-align:center;font:700 1.1rem Georgia,serif;text-transform:none}.mathinput:focus{outline:3px solid #b8d5ff;border-color:var(--blue)}.mathinput.correct{border-color:var(--green);background:#e8f7ee;color:var(--green)}.mathinput.wrong{border-color:var(--red);background:#fff0ee}.fraction{display:inline-flex;flex-direction:column;align-items:stretch;text-align:center;vertical-align:middle;line-height:1}.fraction input{width:48px}.fraction .bar{height:2px;background:#202a35;margin:3px 0}.feedback{font-weight:650;min-height:1.5em;margin:6px 0}.feedback.good{color:var(--green)}.feedback.bad{color:var(--red)}.success{color:var(--green);font-weight:700}.small{font-size:.9rem;color:#526273}footer{max-width:1100px;margin:auto;padding:0 20px 25px;color:#526273;font-size:.9rem}
+@media(max-width:700px){main{padding:12px}.card{padding:14px}.split{grid-template-columns:1fr}.chart{height:240px}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><h1>Kraft, Masse und Beschleunigung</h1><p>Untersuche am Wagen, wie Kraft und Masse die Bewegung verändern.</p></div></header>
+<main>
+<section class="card">
+<h2>1. Experiment: Wagen und Geschwindigkeit</h2>
+<div class="controls">
+<div class="control"><label for="force">Kraft <span class="value"><span id="forceOut">4.0</span> N</span></label><input id="force" type="range" min="1" max="10" step="0.5" value="4"></div>
+<div class="control"><label for="mass">Masse <span class="value"><span id="massOut">2.0</span> kg</span></label><input id="mass" type="range" min="1" max="10" step="0.5" value="2"></div>
+</div>
+<div class="stage" aria-label="Wagen auf einer Strecke"><div class="arrow">Kraft →</div><div class="track"></div><div class="cart" id="cart"><i class="wheel one"></i><i class="wheel two"></i></div></div>
+<div class="actions"><button id="start">▶ Start</button><button class="secondary" id="reset">Zurücksetzen</button><span class="status" id="runStatus" aria-live="polite">Stelle Kraft und Masse ein und starte das Experiment.</span></div>
+<div class="readouts"><span class="pill">Beschleunigung: <b id="accOut">2.00 m/s²</b></span><span class="pill">Zeit: <b id="timeOut">0.0 s</b></span><span class="pill">Geschwindigkeit: <b id="speedOut">0.00 m/s</b></span></div>
+<p class="hint">Der Wagen und das Geschwindigkeit-Zeit-Diagramm laufen gleichzeitig. Ändere Kraft oder Masse vor dem Start; dadurch ändert sich die Steigung.</p>
+</section>
+<section class="card">
+<h2>2. Geschwindigkeit-Zeit-Diagramm</h2>
+<div class="chart-wrap"><canvas id="vtChart" class="chart" aria-label="Geschwindigkeit in Abhängigkeit von der Zeit"></canvas></div>
+<div class="legend"><span><i class="key"></i> während des Experiments aufgezeichneter Graph</span><span><i class="key orange"></i> aktuelle Steigung (Beschleunigung)</span></div>
+<p class="hint">Die Gerade beginnt im Ursprung. Eine größere Beschleunigung bedeutet eine steilere Gerade.</p>
+</section>
+<section class="card">
+<h2>3. Diagramm: Masse verändern</h2>
+<div class="chart-wrap"><canvas id="massChart" class="chart" aria-label="Beschleunigung in Abhängigkeit von der Masse"></canvas></div>
+<div class="legend"><span><i class="key green"></i> Beschleunigung bei der eingestellten Kraft</span><span><i class="key orange"></i> eingestellte Masse und zugehörige Beschleunigung</span></div>
+<p class="hint">Die Kurve zeigt a = F ÷ m. Wenn du die Masse veränderst, wandert die Markierung auf der Kurve. Beim laufenden Experiment wird die aktuelle Masse-Beschleunigungs-Kombination zusätzlich aufgezeichnet.</p>
+</section>
+<section class="card">
+<h2>4. Merksatz: Formeln umstellen</h2>
+<p>Trage die Formelzeichen <b>einzeln</b> in die Kästchen ein. Bei einem Bruch gehören Zähler und Nenner in die beiden getrennten Felder. Prüfe deine Eingabe. Eine richtige Formel bleibt danach stehen.</p>
+<div class="formula" data-answer="a|F|m" data-id="ansA"><span class="target">Nach a auflösen:</span><input class="mathinput" aria-label="Formelzeichen links, Beschleunigung" maxlength="1" autocomplete="off"><span>=</span><span class="fraction"><input class="mathinput" aria-label="Zähler, Kraft" maxlength="1" autocomplete="off"><span class="bar"></span><input class="mathinput" aria-label="Nenner, Masse" maxlength="1" autocomplete="off"></span><button class="secondary check">Prüfen</button></div>
+<div class="feedback" id="feedA" aria-live="polite"></div>
+<div class="formula" data-answer="F|m|a" data-id="ansF"><span class="target">Nach F auflösen:</span><input class="mathinput" aria-label="Formelzeichen links, Kraft" maxlength="1" autocomplete="off"><span>=</span><input class="mathinput" aria-label="Masse" maxlength="1" autocomplete="off"><span>·</span><input class="mathinput" aria-label="Beschleunigung" maxlength="1" autocomplete="off"><button class="secondary check">Prüfen</button></div>
+<div class="feedback" id="feedF" aria-live="polite"></div>
+<div class="formula" data-answer="m|F|a" data-id="ansM"><span class="target">Nach m auflösen:</span><input class="mathinput" aria-label="Formelzeichen links, Masse" maxlength="1" autocomplete="off"><span>=</span><span class="fraction"><input class="mathinput" aria-label="Zähler, Kraft" maxlength="1" autocomplete="off"><span class="bar"></span><input class="mathinput" aria-label="Nenner, Beschleunigung" maxlength="1" autocomplete="off"></span><button class="secondary check">Prüfen</button></div>
+<div class="feedback" id="feedM" aria-live="polite"></div>
+<p class="small">Ausgangspunkt: F = m · a</p>
+</section>
+</main>
+<footer>Hinweis: Das Modell nimmt eine konstante Kraft und vernachlässigt Reibung an.</footer>
+<script>
+(()=>{
+const $=id=>document.getElementById(id), force=$('force'),mass=$('mass'),cart=$('cart'),start=$('start'),reset=$('reset');
+const vt=$('vtChart'),mc=$('massChart');let running=false,raf=0,t=0,trace=[],massTrace=[],last=0,runForce=4,runMass=2;
+const accel=()=>Number(force.value)/Number(mass.value);
+function resizeCanvas(c){const dpr=window.devicePixelRatio||1,r=c.getBoundingClientRect();c.width=Math.max(1,Math.round(r.width*dpr));c.height=Math.max(1,Math.round(r.height*dpr));const x=c.getContext('2d');x.setTransform(dpr,0,0,dpr,0,0);return {ctx:x,w:r.width,h:r.height}}
+function axes(ctx,w,h,xlab,ylab,xmax,ymax){const L=52,R=15,T=17,B=38,pw=w-L-R,ph=h-T-B;ctx.clearRect(0,0,w,h);ctx.font='12px system-ui';ctx.strokeStyle='#dce4ed';ctx.fillStyle='#526273';ctx.lineWidth=1;
+for(let i=0;i<=5;i++){let x=L+pw*i/5;ctx.beginPath();ctx.moveTo(x,T);ctx.lineTo(x,T+ph);ctx.stroke();ctx.fillText((xmax*i/5).toFixed(xmax<=10?1:0),x-10,T+ph+18);let y=T+ph-ph*i/5;ctx.beginPath();ctx.moveTo(L,y);ctx.lineTo(L+pw,y);ctx.stroke();ctx.fillText((ymax*i/5).toFixed(ymax<=10?1:0),5,y+4)}
+ctx.strokeStyle='#263746';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(L,T);ctx.lineTo(L,T+ph);ctx.lineTo(L+pw,T+ph);ctx.stroke();ctx.fillStyle='#263746';ctx.fillText(xlab,L+pw/2-35,h-6);ctx.save();ctx.translate(14,T+ph/2+30);ctx.rotate(-Math.PI/2);ctx.fillText(ylab,0,0);ctx.restore();return {L,T,pw,ph}}
+function drawV(){const {ctx,w,h}=resizeCanvas(vt);const xmax=6,ymax=Math.max(5,Math.ceil((accel()*6)/5)*5);const p=axes(ctx,w,h,'Zeit t (s)','Geschwindigkeit v (m/s)',xmax,ymax);let {L,T,pw,ph}=p;let line=(pts,color,width)=>{if(!pts.length)return;ctx.beginPath();pts.forEach((q,i)=>{let x=L+q[0]/xmax*pw,y=T+ph-q[1]/ymax*ph;i?ctx.lineTo(x,y):ctx.moveTo(x,y)});ctx.strokeStyle=color;ctx.lineWidth=width;ctx.stroke()};
+// Theoretical line always starts at (0,0)
+line([[0,0],[6,accel()*6]],'#f08c00',2);line(trace,'#155eef',3);
+}
+function drawMass(){const {ctx,w,h}=resizeCanvas(mc);const F=Number(force.value),xmax=10,ymax=Math.max(10,Math.ceil(F/1.5/2)*2);const p=axes(ctx,w,h,'Masse m (kg)','Beschleunigung a (m/s²)',xmax,ymax);const {L,T,pw,ph}=p;ctx.beginPath();let started=false;for(let m=.5;m<=10.001;m+=.05){let x=L+m/xmax*pw,y=T+ph-Math.min(ymax,F/m)/ymax*ph;if(!started){ctx.moveTo(x,y);started=true}else ctx.lineTo(x,y)}ctx.strokeStyle='#159455';ctx.lineWidth=3;ctx.stroke();
+// Highlight the selected mass/acceleration on the curve and link recorded experiment points.
+const m=Number(mass.value),a=F/m,cx=L+m/xmax*pw,cy=T+ph-Math.min(ymax,a)/ymax*ph;
+if(massTrace.length){ctx.beginPath();massTrace.forEach((q,i)=>{let x=L+q[0]/xmax*pw,y=T+ph-Math.min(ymax,q[1])/ymax*ph;i?ctx.lineTo(x,y):ctx.moveTo(x,y)});ctx.strokeStyle='#f08c00';ctx.lineWidth=2.5;ctx.stroke()}
+ctx.beginPath();ctx.arc(cx,cy,7,0,Math.PI*2);ctx.fillStyle='#f08c00';ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.stroke();ctx.fillStyle='#182230';ctx.font='bold 12px system-ui';ctx.fillText(`m=${m.toFixed(1)} kg, a=${a.toFixed(2)}`,Math.min(cx+10,w-145),Math.max(T+14,cy-10));
+}
+function update(){ $('forceOut').textContent=Number(force.value).toFixed(1);$('massOut').textContent=Number(mass.value).toFixed(1);$('accOut').textContent=accel().toFixed(2)+' m/s²';drawV();drawMass()}
+function setCart(pos){const stage=cart.parentElement;const travel=stage.clientWidth-cart.offsetWidth-25;cart.style.left=(12+Math.max(0,Math.min(1,pos))*travel)+'px'}
+function animate(now){if(!running)return;if(!last)last=now;let dt=(now-last)/1000;last=now;t=Math.min(6,t+dt);let a=runForce/runMass,v=a*t,x=.5*a*t*t;
+$('timeOut').textContent=t.toFixed(1)+' s';$('speedOut').textContent=v.toFixed(2)+' m/s';const xmax=6, xmaxDist=.5*runForce/runMass*36;setCart(xmaxDist?x/xmaxDist:0);trace.push([t,v]);massTrace.push([runMass,a]);drawV();drawMass();
+if(t>=6){running=false;start.disabled=false;$('runStatus').textContent='Experiment beendet. Ändere die Werte und starte erneut.';return}raf=requestAnimationFrame(animate)}
+start.addEventListener('click',()=>{if(running)return;running=true;t=0;last=0;trace=[];massTrace=[];runForce=Number(force.value);runMass=Number(mass.value);setCart(0);$('timeOut').textContent='0.0 s';$('speedOut').textContent='0.00 m/s';$('runStatus').textContent='Experiment läuft – beide Diagramme werden live aktualisiert.';start.disabled=true;drawV();drawMass();raf=requestAnimationFrame(animate)});
+reset.addEventListener('click',()=>{running=false;cancelAnimationFrame(raf);start.disabled=false;t=0;last=0;trace=[];massTrace=[];setCart(0);$('timeOut').textContent='0.0 s';$('speedOut').textContent='0.00 m/s';$('runStatus').textContent='Stelle Kraft und Masse ein und starte das Experiment.';update()});
+force.addEventListener('input',update);mass.addEventListener('input',update);window.addEventListener('resize',update);
+const feedbackIds={ansA:'feedA',ansF:'feedF',ansM:'feedM'};
+document.querySelectorAll('.formula').forEach(row=>{const inputs=[...row.querySelectorAll('input')],answer=row.dataset.answer.split('|'),fb=$(feedbackIds[row.dataset.id]);row.querySelector('.check').addEventListener('click',()=>{if(row.dataset.locked==='true')return;const values=inputs.map(i=>i.value.trim());inputs.forEach((i,n)=>{i.classList.remove('wrong','correct');i.classList.add(values[n]===answer[n]?'correct':'wrong')});if(values.every((v,n)=>v===answer[n])){row.dataset.locked='true';inputs.forEach(i=>{i.disabled=true;i.classList.remove('wrong');i.classList.add('correct')});row.querySelector('.check').disabled=true;row.querySelector('.check').textContent='Richtig ✓';fb.textContent='Richtig! Die Formel bleibt stehen.';fb.className='feedback good'}else{fb.textContent='Noch nicht ganz. Prüfe jedes Formelzeichen einzeln.';fb.className='feedback bad'}});inputs.forEach((input,n)=>input.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();row.querySelector('.check').click()}if(e.key.length===1&&n<inputs.length-1&&input.value.length===0)setTimeout(()=>inputs[n+1].focus(),0)}))});
+update();setCart(0);
+})();
+</script>
+</body>
+</html>
