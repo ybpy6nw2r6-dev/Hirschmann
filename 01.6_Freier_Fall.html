@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <!-- Strenge CSP: keine Netzwerkverbindungen oder externen Ressourcen; nur Inline-CSS/JS. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; connect-src 'none'; img-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'">
+  <title>Freier Fall – Physik 10</title>
+  <style>
+    :root {
+      --navy: #17324d;
+      --blue: #176b87;
+      --teal: #007f73;
+      --mint: #e5f5f1;
+      --sky: #eaf4fb;
+      --gold: #f2b544;
+      --ink: #203244;
+      --muted: #526575;
+      --paper: #ffffff;
+      --line: #d6e1e8;
+      --good: #176b45;
+      --bad: #9a3c2c;
+      --shadow: 0 8px 24px rgba(23, 50, 77, .09);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; color: var(--ink); background: #f2f7fa; line-height: 1.55; }
+    header { color: white; background: linear-gradient(120deg, #17324d, #176b87); padding: 1.5rem 1rem 1.7rem; }
+    .wrap { width: min(1120px, 100% - 2rem); margin: 0 auto; }
+    .eyebrow { margin: 0 0 .35rem; font-size: .84rem; letter-spacing: .08em; text-transform: uppercase; opacity: .88; font-weight: 700; }
+    h1 { font-size: clamp(1.8rem, 5vw, 3rem); line-height: 1.1; margin: .1rem 0 .5rem; }
+    header p { max-width: 760px; margin: 0; }
+    main { padding: 1.2rem 0 3rem; }
+    section, .card { background: var(--paper); border: 1px solid var(--line); border-radius: 16px; box-shadow: var(--shadow); padding: clamp(1rem, 3vw, 1.5rem); margin: 0 0 1rem; }
+    h2 { color: var(--navy); margin: 0 0 .65rem; font-size: clamp(1.25rem, 3vw, 1.65rem); }
+    h3 { color: var(--navy); margin: 1rem 0 .4rem; font-size: 1.08rem; }
+    p { margin: .4rem 0 .75rem; }
+    .intro-grid, .two-col, .controls-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+    .callout { padding: .9rem 1rem; background: var(--sky); border-left: 4px solid var(--blue); border-radius: 10px; }
+    .callout.green { background: var(--mint); border-color: var(--teal); }
+    .small { color: var(--muted); font-size: .92rem; }
+    .tag { display: inline-block; padding: .15rem .55rem; border-radius: 99px; color: var(--navy); background: #e7eef5; font-size: .82rem; font-weight: 700; }
+    label { display: block; font-weight: 700; margin: .55rem 0 .3rem; }
+    input[type="number"], select { width: 100%; min-height: 44px; padding: .55rem .65rem; color: var(--ink); background: #fff; border: 1px solid #9aabba; border-radius: 8px; font: inherit; }
+    input[type="range"] { width: 100%; accent-color: var(--teal); min-height: 34px; }
+    button { min-height: 44px; padding: .6rem .9rem; border: 0; border-radius: 9px; color: #fff; background: var(--blue); font: inherit; font-weight: 700; cursor: pointer; touch-action: manipulation; }
+    button:hover { filter: brightness(.92); }
+    button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+    button.secondary { color: var(--navy); background: #e6eef4; border: 1px solid #c8d5df; }
+    button.gold { background: #9b6500; }
+    .button-row { display: flex; flex-wrap: wrap; gap: .55rem; margin: .75rem 0; }
+    .sim-layout { display: grid; grid-template-columns: minmax(190px, .72fr) minmax(0, 1.3fr); gap: 1rem; align-items: stretch; }
+    .stage-wrap { min-height: 290px; padding: .8rem; background: linear-gradient(#eaf6fc, #fbfdff); border: 1px solid var(--line); border-radius: 14px; position: relative; overflow: hidden; }
+    .stage-label { text-align: center; font-weight: 700; color: var(--navy); }
+    .stage { height: 220px; position: relative; max-width: 150px; margin: .35rem auto 0; border-bottom: 7px solid #8a6741; }
+    .wall { position: absolute; width: 15px; height: 100%; right: 22px; bottom: 0; background: repeating-linear-gradient(0deg, #c8d6de 0 17px, #e3edf1 17px 20px); border-radius: 5px 5px 0 0; }
+    .drop-line { position: absolute; right: 45px; bottom: 0; height: 100%; border-left: 2px dashed #83a7b5; }
+    .ball { position: absolute; z-index: 2; right: 35px; top: 0; width: 26px; height: 26px; border-radius: 50%; background: radial-gradient(circle at 32% 28%, #fff2ba, #f2b544 48%, #c87b0b); box-shadow: 0 3px 7px #16374b55; transform: translateY(0); transition: transform .12s linear; }
+    .floor-mark { position: absolute; bottom: -1.8rem; left: 0; right: 0; color: var(--muted); text-align: center; font-size: .8rem; }
+    .readout { display: grid; grid-template-columns: repeat(3, 1fr); gap: .5rem; margin-top: .75rem; }
+    .readout div { padding: .55rem .35rem; text-align: center; border-radius: 9px; background: #edf4f7; }
+    .readout strong { display: block; color: var(--navy); font-size: 1.05rem; }
+    .readout span { font-size: .78rem; color: var(--muted); }
+    .range-row { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: .7rem; }
+    output { min-width: 5.5rem; text-align: right; font-weight: 700; color: var(--navy); }
+    .table-scroll { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; min-width: 440px; margin: .6rem 0; }
+    th, td { border-bottom: 1px solid var(--line); padding: .55rem .5rem; text-align: left; }
+    th { color: var(--navy); background: #edf4f7; }
+    .chart-box { background: #fbfdff; border: 1px solid var(--line); border-radius: 12px; padding: .45rem; }
+    canvas { display: block; width: 100%; height: 280px; touch-action: pan-y; }
+    .chart-switch { display: flex; gap: .5rem; flex-wrap: wrap; }
+    .chart-switch button[aria-pressed="true"] { color: white; background: var(--teal); }
+    .feedback { min-height: 1.6em; font-weight: 700; margin: .4rem 0; }
+    .feedback.good { color: var(--good); }
+    .feedback.bad { color: var(--bad); }
+    .answer-row { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem; margin: .6rem 0; }
+    .answer-row select { width: auto; min-width: 150px; }
+    details { border-top: 1px solid var(--line); padding: .65rem 0; }
+    summary { font-weight: 700; color: var(--navy); cursor: pointer; }
+    ol, ul { padding-left: 1.3rem; }
+    .source-note { border-top: 1px solid var(--line); padding-top: .8rem; margin-top: 1rem; font-size: .9rem; color: var(--muted); }
+    footer { padding: 1rem; color: var(--muted); font-size: .88rem; text-align: center; }
+    @media (max-width: 720px) {
+      .intro-grid, .two-col, .controls-grid, .sim-layout { grid-template-columns: 1fr; }
+      .stage-wrap { min-height: 275px; }
+      .stage { height: 195px; }
+      canvas { height: 245px; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <p class="eyebrow">Physik · Jahrgangsstufe 10 · Realschule</p>
+      <h1>Freier Fall: messen, darstellen, erklären</h1>
+      <p>Untersuche, wie Fallstrecke und Fallzeit zusammenhängen. Probiere das Modell aus, trage Messwerte ein und vergleiche ein <em>t-s</em>-Diagramm mit einem <em>t²-s</em>-Diagramm.</p>
+    </div>
+  </header>
+  <main class="wrap">
+    <section aria-labelledby="ziel">
+      <h2 id="ziel">Dein Auftrag</h2>
+      <div class="intro-grid">
+        <div class="callout"><strong>Lernziel</strong><br>Du führst eine sichere Untersuchung zum freien Fall durch, hältst Messwerte fest, stellst sie in Diagrammen dar und formulierst eine passende Regel.</div>
+        <div class="callout green"><strong>Was bedeutet „freier Fall“?</strong><br>Im physikalischen Modell wirkt nur die Gewichtskraft. Luftwiderstand wird zunächst vernachlässigt. Für den Fall nahe der Erdoberfläche verwenden wir hier als Ergänzung zum Arbeitsblatt den Näherungswert <strong>g = 9,81 m/s²</strong>.</div>
+      </div>
+      <p class="small">Das bereitgestellte Arbeitsblatt nennt den freien Fall sowie den Vergleich von Energiebetrachtungen mit Luft und im luftleeren Raum. Die unten stehende Simulation, Diagrammanleitung und Zahlenbeispiele sind ergänzende Lernhilfen; die OCR-Fassung des Arbeitsblatts ist teilweise unleserlich.</p>
+    </section>
+
+    <section aria-labelledby="experiment">
+      <h2 id="experiment">1 · Experimentierfeld: Fallbewegung erkunden</h2>
+      <p>Stelle die Fallhöhe ein und bewege den Zeitregler. Die Kugel zeigt die berechnete Position im <strong>idealen Modell</strong>. Damit kannst du Messzeitpunkte planen. Das Modell ersetzt keine reale Messung.</p>
+      <div class="sim-layout">
+        <div class="stage-wrap" aria-label="Schematische Darstellung der fallenden Kugel">
+          <div class="stage-label">Fallstrecke <span id="stageHeight">5,0 m</span></div>
+          <div class="stage" id="stage">
+            <div class="wall" aria-hidden="true"></div><div class="drop-line" aria-hidden="true"></div>
+            <div class="ball" id="ball" aria-hidden="true"></div>
+            <div class="floor-mark">Startpunkt oben · Boden unten</div>
+          </div>
+          <div class="readout" aria-live="polite">
+            <div><strong id="timeRead">0,00 s</strong><span>Zeit t</span></div>
+            <div><strong id="distanceRead">0,00 m</strong><span>Fallstrecke s</span></div>
+            <div><strong id="velocityRead">0,00 m/s</strong><span>Geschwindigkeit v</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="controls-grid">
+            <div>
+              <label for="height">Fallhöhe</label>
+              <select id="height">
+                <option value="2">2 m</option><option value="5" selected>5 m</option><option value="10">10 m</option>
+              </select>
+            </div>
+            <div>
+              <label for="gravity">Fallbeschleunigung g (m/s²)</label>
+              <input id="gravity" type="number" min="1" max="20" step="0.01" value="9.81" inputmode="decimal">
+            </div>
+          </div>
+          <label for="timeSlider">Zeitpunkt der Modellbewegung</label>
+          <div class="range-row"><input id="timeSlider" type="range" min="0" max="1.01" step="0.01" value="0" aria-describedby="timeHint"><output id="timeHint">max. 1,01 s</output></div>
+          <div class="button-row">
+            <button type="button" id="dropButton">Fall starten</button>
+            <button type="button" class="secondary" id="pauseButton">Anhalten</button>
+            <button type="button" class="gold" id="recordModel">Modellpunkt übernehmen</button>
+          </div>
+          <p class="small">Modellgleichungen bei Start aus der Ruhe: <strong>s = ½ · g · t²</strong> und <strong>v = g · t</strong>. Die angezeigte Strecke wird bei der eingestellten Höhe begrenzt.</p>
+          <div class="callout"><strong>Forscherfrage</strong><br>Verdopple den Zeitpunkt. Was geschieht ungefähr mit der Fallstrecke? Prüfe anschließend, ob die Punkte im t²-s-Diagramm annähernd auf einer Geraden liegen.</div>
+        </div>
+      </div>
+      <h3>Reales Experiment – sicher und sorgfältig</h3>
+      <ol>
+        <li>Arbeite nur mit einer kleinen, leichten, weichen Kugel und an einem freien, abgesperrten Platz. Nicht von Treppen, Fenstern oder Möbeln springen lassen und keine schweren Gegenstände fallen lassen.</li>
+        <li>Lege eine bekannte Fallhöhe fest und miss sie vom Startpunkt bis zum Boden. Eine Lehrkraft beaufsichtigt den Versuch.</li>
+        <li>Miss die Fallzeit mit dem im Unterricht vorgesehenen Messverfahren. Wiederhole die Messung mehrfach; notiere Höhe, Zeiten und Bedingungen. Reaktionszeit kann die Handstoppung merklich verfälschen.</li>
+        <li>Gib für jede Messung die mittlere Fallstrecke an. Trage Zeit t in Sekunden und Strecke s in Metern ein. Falls euer Arbeitsblatt ein anderes Verfahren vorgibt, folgt diesem und den Sicherheitsregeln der Lehrkraft.</li>
+      </ol>
+      <p class="small"><strong>Hinweis:</strong> Bei sehr kurzen Fallzeiten ist die Handstoppung ungenau. Für gute Ergebnisse eignen sich ein geeignetes schulisches Messgerät oder eine sichere, von der Lehrkraft angeleitete Videoauswertung. Es werden hier keine Kamera- oder Sensordaten ausgelesen.</p>
+    </section>
+
+    <section aria-labelledby="messwerte">
+      <h2 id="messwerte">2 · Messwerte aufnehmen</h2>
+      <p>Füge hier echte Messwerte aus eurem Experiment ein. Dezimalzahlen sind erlaubt. Die Daten bleiben nur so lange in dieser offenen Seite im Arbeitsspeicher und verschwinden beim Neuladen oder Schließen. Modellpunkte sind ausdrücklich als solche markiert.</p>
+      <div class="controls-grid">
+        <div><label for="manualTime">Gemessene Zeit t (s)</label><input id="manualTime" type="number" min="0" max="30" step="0.01" placeholder="z. B. 0,40" inputmode="decimal"></div>
+        <div><label for="manualDistance">Fallstrecke s (m)</label><input id="manualDistance" type="number" min="0" max="100" step="0.01" placeholder="z. B. 0,80" inputmode="decimal"></div>
+      </div>
+      <div class="button-row"><button type="button" id="addMeasured">Messwert eintragen</button><button type="button" class="secondary" id="clearData">Alle Messwerte löschen</button></div>
+      <p class="feedback" id="dataFeedback" role="status" aria-live="polite"></p>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th scope="col">Nr.</th><th scope="col">Zeit t (s)</th><th scope="col">Strecke s (m)</th><th scope="col">t² (s²)</th><th scope="col">Art</th></tr></thead>
+          <tbody id="dataRows"><tr><td colspan="5">Noch keine Werte. Trage eine Messung ein oder übernimm Modellpunkte.</td></tr></tbody>
+        </table>
+      </div>
+      <p class="small">Modellpunkte helfen beim Erkunden der Theorie. Für die Auswertung eures Versuchs verwendet und kennzeichnet eure tatsächlichen Messwerte.</p>
+    </section>
+
+    <section aria-labelledby="diagramme">
+      <h2 id="diagramme">3 · Diagramme erstellen und vergleichen</h2>
+      <p>Wähle ein Diagramm. Die Punkte stammen aus der Tabelle. Achsen beginnen bei null; die Skalierung passt sich an die vorhandenen Werte an.</p>
+      <div class="chart-switch" role="group" aria-label="Diagramm auswählen">
+        <button type="button" id="tsButton" aria-pressed="true">t-s-Diagramm</button>
+        <button type="button" id="t2sButton" aria-pressed="false">t²-s-Diagramm</button>
+      </div>
+      <div class="chart-box"><canvas id="chart" role="img" aria-label="Diagramm der eingetragenen Messwerte">Ein Diagramm wird angezeigt, sobald JavaScript aktiv ist.</canvas></div>
+      <div class="two-col">
+        <div class="callout"><strong>t-s-Diagramm</strong><br>Waagrecht: Zeit t in s. Senkrecht: Fallstrecke s in m. Im idealen freien Fall ist der Graph gekrümmt: In gleichen Zeitabschnitten kommt jeweils mehr Strecke hinzu.</div>
+        <div class="callout green"><strong>t²-s-Diagramm</strong><br>Berechne für jede Zeit t den Wert t² und trage t² waagrecht (in s²), s senkrecht (in m) ein. Im idealen Modell entsteht eine Gerade durch den Ursprung. Ihre Steigung ist ungefähr g/2.</div>
+      </div>
+      <details><summary>So gehst du beim Zeichnen auf Papier vor</summary>
+        <ol><li>Erstelle eine übersichtliche Wertetabelle mit t, s und t².</li><li>Beschrifte beide Achsen mit Größe und Einheit. Wähle eine gleichmäßige Skala, die den gesamten Wertebereich abdeckt.</li><li>Trage die Messpunkte sorgfältig ein. Verbinde sie nicht zickzackartig; zeichne eine passende Ausgleichslinie bzw. Ausgleichskurve.</li><li>Vergleiche den Verlauf. Für das t²-s-Diagramm kannst du die Steigung der Geraden abschätzen: Steigung ≈ Δs/Δ(t²) ≈ g/2.</li></ol>
+      </details>
+      <p class="small" id="chartDescription" aria-live="polite">Noch keine Punkte zum Darstellen vorhanden.</p>
+    </section>
+
+    <section aria-labelledby="energie">
+      <h2 id="energie">4 · Verbindung zum Arbeitsblatt: Energie</h2>
+      <p>Das bereitgestellte Arbeitsblatt führt eine Energiebetrachtung mit Luft und im luftleeren Raum auf. Im idealisierten Modell ohne Luftwiderstand wird Lageenergie beim Fallen in Bewegungsenergie umgewandelt. Mit Luftwiderstand wird ein Teil der mechanischen Energie an die Umgebung abgegeben, zum Beispiel als Wärme und durch Luftbewegung.</p>
+      <div class="callout"><strong>Zum Nachdenken:</strong> Warum können zwei unterschiedlich geformte Gegenstände in Luft unterschiedlich fallen, obwohl die Gewichtskraft auf beide wirkt? Welche Rolle spielt der Luftwiderstand?</div>
+      <p class="small">Die Energieerklärung ist eine fachliche Ergänzung zur im Arbeitsblatt erkennbaren Gegenüberstellung „mit Luft / luftleer“; Details der schlecht lesbaren Aufgaben wurden nicht rekonstruiert.</p>
+    </section>
+
+    <section aria-labelledby="uebungen">
+      <h2 id="uebungen">5 · Üben und direkt prüfen</h2>
+      <div class="two-col">
+        <div class="card" style="margin:0;box-shadow:none">
+          <span class="tag">Grundwissen</span>
+          <h3>Welche Aussage passt zum idealen freien Fall aus der Ruhe?</h3>
+          <label for="q1">Wähle eine Antwort</label>
+          <select id="q1"><option value="">Bitte auswählen …</option><option value="a">Die Geschwindigkeit bleibt konstant.</option><option value="b">Die Fallstrecke ist proportional zur Zeit.</option><option value="c">Die Fallstrecke wächst proportional zu t².</option></select>
+          <button type="button" id="check1">Antwort prüfen</button>
+          <p class="feedback" id="feedback1" role="status" aria-live="polite"></p>
+        </div>
+        <div class="card" style="margin:0;box-shadow:none">
+          <span class="tag">Anwenden</span>
+          <h3>Rechne mit dem Modell</h3>
+          <p>Ein Körper fällt aus der Ruhe 0,50 s. Verwende g = 10 m/s². Wie weit ist er gefallen?</p>
+          <label for="q2">Deine Antwort s (m)</label><input id="q2" type="number" step="0.01" inputmode="decimal" placeholder="Zahl eingeben">
+          <button type="button" id="check2">Rechnung prüfen</button>
+          <p class="feedback" id="feedback2" role="status" aria-live="polite"></p>
+        </div>
+      </div>
+      <div class="card" style="margin:1rem 0 0;box-shadow:none">
+        <span class="tag">Erklären</span>
+        <h3>Typische Fehlvorstellung</h3>
+        <p>„Ein schwererer Gegenstand fällt im luftleeren Raum grundsätzlich schneller.“ Stimmt diese Aussage im idealen Modell?</p>
+        <label for="q3">Wähle eine Antwort</label>
+        <select id="q3"><option value="">Bitte auswählen …</option><option value="ja">Ja, denn seine Gewichtskraft ist größer.</option><option value="nein">Nein, bei gleicher Fallhöhe und Start aus der Ruhe fallen Körper gleich schnell, wenn nur die Gravitation wirkt.</option></select>
+        <button type="button" id="check3">Antwort prüfen</button>
+        <p class="feedback" id="feedback3" role="status" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <section aria-labelledby="merke">
+      <h2 id="merke">6 · Merksatz: Lückentext</h2>
+      <p>Wähle die passenden Wörter aus. Du kannst die Auswahl jederzeit ändern und erneut prüfen.</p>
+      <div class="answer-row"><span>Beim idealen freien Fall aus der Ruhe ist die Beschleunigung</span><select id="blank1" aria-label="Lücke 1"><option value="">…</option><option value="constant">konstant</option><option value="growing">zunehmend</option><option value="zero">null</option></select><span>. Die Fallstrecke ist proportional zum</span><select id="blank2" aria-label="Lücke 2"><option value="">…</option><option value="t">Zeit t</option><option value="t2">Quadrat der Zeit t²</option><option value="mass">Masse</option></select><span>: s = ½ · g · t².</span></div>
+      <div class="answer-row"><span>Im t-s-Diagramm ist der Graph</span><select id="blank3" aria-label="Lücke 3"><option value="">…</option><option value="line">eine Gerade</option><option value="curve">gekrümmt</option></select><span>; im t²-s-Diagramm ergibt sich idealerweise</span><select id="blank4" aria-label="Lücke 4"><option value="">…</option><option value="straight">eine Gerade</option><option value="curve">eine gekrümmte Linie</option></select><span>.</span></div>
+      <div class="button-row"><button type="button" id="checkBlanks">Merksatz prüfen</button><button type="button" class="secondary" id="showBlanks">Lösung anzeigen</button></div>
+      <p class="feedback" id="blankFeedback" role="status" aria-live="polite"></p>
+      <p id="completedRule" class="callout green" hidden><strong>Merksatz:</strong> Beim idealen freien Fall aus der Ruhe ist die Beschleunigung konstant. Die Fallstrecke wächst proportional zum Quadrat der Zeit. Deshalb ist das t-s-Diagramm gekrümmt, das t²-s-Diagramm idealerweise eine Gerade.</p>
+    </section>
+
+    <section aria-labelledby="lehrkraft">
+      <h2 id="lehrkraft">Handreichung für Lehrkräfte</h2>
+      <h3>Unterrichtsidee (ca. 25–40 Minuten)</h3>
+      <ol><li><strong>Einstieg (3–5 min):</strong> Vorhersage: Welche Strecke legt ein Körper in gleichen Zeitabschnitten zurück? Vermutungen zunächst sammeln.</li><li><strong>Erkunden (8–12 min):</strong> Schülerinnen und Schüler variieren Fallhöhe und Zeitpunkt im Modell. Dabei deutlich zwischen Modellwerten und realen Messwerten unterscheiden.</li><li><strong>Experiment und Auswertung (10–15 min):</strong> Nach den Sicherheitsregeln des Arbeitsblatts messen, Werte in die Tabelle übertragen und Papierdiagramme erstellen. Die Canvas-Diagramme dienen als unmittelbare Sichtkontrolle.</li><li><strong>Sicherung (5–8 min):</strong> t-s- und t²-s-Diagramm vergleichen, Steigung deuten und Lückentext als individuellen Abschluss bearbeiten.</li></ol>
+      <h3>Differenzierung</h3>
+      <ul><li><strong>Unterstützung:</strong> Fallhöhe 2 m wählen, eine vorstrukturierte Tabelle austeilen und Achsenskalierung gemeinsam festlegen; Einheiten farblich markieren.</li><li><strong>Regelstandard:</strong> Mindestens vier Messwerte aufnehmen, t² berechnen, beide Diagramme zeichnen und den Verlauf erläutern.</li><li><strong>Erweiterung:</strong> Steigung im t²-s-Diagramm bestimmen und daraus g ≈ 2 · Steigung abschätzen. Messstreuung und Einfluss der Luft bzw. Reaktionszeit diskutieren.</li><li><strong>Sprachsensibel:</strong> Satzstarter nutzen: „Wenn sich t verdoppelt, dann …“ und „Die Steigung bedeutet …“.</li></ul>
+      <h3>ByCS-Lernplattform: Einbindung</h3>
+      <ul><li>HTML-Datei lokal herunterladen und vor dem Einsatz im Zielbrowser prüfen. In der ByCS-Lernplattform entsprechend der dort verfügbaren Funktion als Datei/Material bereitstellen oder in einem unterstützten HTML-Inhaltsbereich verwenden.</li><li>Wenn die Plattform aktive HTML-Dateien oder Inline-JavaScript einschränkt, Datei nicht ungeprüft in ein Textfeld kopieren. Vorab im Kurs mit einer Testressource prüfen, wie die Plattform die Datei verarbeitet.</li><li>Die Lerneinheit arbeitet ohne externe Ressourcen und ohne Speicherung. Einträge bestehen nur im Arbeitsspeicher der geöffneten Seite; für eine Sicherung müssen Lernende ihre Ergebnisse selbst ins Heft/Arbeitsblatt übertragen.</li></ul>
+      <p class="source-note"><strong>Materialbezug und Rechte:</strong> Fachlicher Ausgangspunkt ist die bereitgestellte Unterrichtsquelle „01.6_Freier Fall_AB FERTIG.pdf“ (vom Auftraggeber bereitgestellt; Rechte am Originalmaterial bleiben bei den jeweiligen Rechteinhabern). Die OCR-Übertragung ist teilweise beschädigt; sicher erkennbar sind Thema freier Fall und Energiebetrachtung mit Luft bzw. luftleer. Unleserliche Aufgaben wurden nicht wörtlich übernommen. Gleichungen, g-Näherungswert, Simulation, Diagrammanleitung und Übungsfragen sind als eigene Ergänzungen für diese Lerneinheit formuliert. Gestaltung, CSS-Zeichnung und JavaScript sind eigens erstellt; keine fremden Bilder, Fonts, Bibliotheken oder sonstigen Medien verwendet.</p>
+    </section>
+
+    <section aria-labelledby="checkliste">
+      <h2 id="checkliste">Prüfliste vor dem Einstellen in ByCS</h2>
+      <ul><li>Quelltext vor Änderungen prüfen; nur vertrauenswürdige und nachvollziehbare Ergänzungen übernehmen.</li><li>Im Quelltext nach <code>http</code>, <code>fetch</code>, <code>XMLHttpRequest</code>, <code>WebSocket</code>, <code>sendBeacon</code>, <code>eval</code>, <code>innerHTML</code>, <code>localStorage</code>, <code>sessionStorage</code>, <code>IndexedDB</code> und <code>document.cookie</code> suchen.</li><li>In den Entwicklertools/Netzwerkprotokollen beim Öffnen und Bedienen kontrollieren, dass keine Verbindungen aufgebaut werden.</li><li>Prüfen, dass keine Namen oder sonstigen personenbezogenen Daten abgefragt, gespeichert oder übertragen werden.</li><li>Neue Inhalte, Grafiken oder Medien auf Herkunft, Lizenz und schulische Nutzungsrechte überprüfen.</li><li>Darstellung, Tastaturbedienung und Lesbarkeit auf den tatsächlich verwendeten Geräten (insbesondere iPad und Zielbrowser) testen.</li></ul>
+      <p><strong>URLs im Code:</strong> Keine. (Auch die Grafiken werden mit CSS erzeugt; es gibt keine externen Verweise.)</p>
+    </section>
+  </main>
+  <footer>Diese Lernseite speichert oder versendet keine Eingaben. Beim Neuladen gehen die eingetragenen Werte verloren.</footer>
+
+  <script>
+    "use strict";
+    // Alle Zustände verbleiben ausschließlich im Arbeitsspeicher dieser Seite.
+    const rows = [];
+    let chartMode = "ts";
+    let animationFrame = 0;
+    let animationStart = 0;
+    let animationInitialTime = 0;
+
+    const byId = (id) => document.getElementById(id);
+    const heightInput = byId("height");
+    const gravityInput = byId("gravity");
+    const timeSlider = byId("timeSlider");
+
+    function readGravity() {
+      const value = Number(gravityInput.value);
+      return Number.isFinite(value) && value >= 1 && value <= 20 ? value : 9.81;
+    }
+    function maximumTime() {
+      const h = Number(heightInput.value);
+      return Math.sqrt((2 * h) / readGravity());
+    }
+    function currentTime() { return Number(timeSlider.value); }
+    function modelAt(t) {
+      const h = Number(heightInput.value);
+      const g = readGravity();
+      const limitedTime = Math.min(Math.max(0, t), maximumTime());
+      const s = Math.min(h, 0.5 * g * limitedTime * limitedTime);
+      return { t: limitedTime, s, v: Math.min(g * limitedTime, Math.sqrt(2 * g * h)) };
+    }
+    function updateSimulation() {
+      const h = Number(heightInput.value);
+      const maxT = maximumTime();
+      timeSlider.max = String(maxT.toFixed(2));
+      if (Number(timeSlider.value) > maxT) timeSlider.value = String(maxT.toFixed(2));
+      byId("timeHint").textContent = `max. ${maxT.toFixed(2)} s`;
+      byId("stageHeight").textContent = `${h.toFixed(1).replace(".", ",")} m`;
+      const result = modelAt(currentTime());
+      byId("timeRead").textContent = `${result.t.toFixed(2)} s`;
+      byId("distanceRead").textContent = `${result.s.toFixed(2)} m`;
+      byId("velocityRead").textContent = `${result.v.toFixed(2)} m/s`;
+      const stage = byId("stage");
+      const usable = Math.max(0, stage.clientHeight - 26);
+      const fraction = h > 0 ? result.s / h : 0;
+      byId("ball").style.transform = `translateY(${Math.min(usable, usable * fraction)}px)`;
+    }
+    function setFeedback(element, message, good) {
+      element.textContent = message;
+      element.className = `feedback ${good ? "good" : "bad"}`;
+    }
+    function addRow(t, s, kind) {
+      if (!Number.isFinite(t) || !Number.isFinite(s) || t < 0 || s < 0) return false;
+      rows.push({ t, s, kind });
+      renderRows();
+      drawChart();
+      return true;
+    }
+    function renderRows() {
+      const body = byId("dataRows");
+      body.replaceChildren();
+      if (rows.length === 0) {
+        const tr = document.createElement("tr");
+        const td = document.createElement("td");
+        td.colSpan = 5;
+        td.textContent = "Noch keine Werte. Trage eine Messung ein oder übernimm Modellpunkte.";
+        tr.appendChild(td); body.appendChild(tr); return;
+      }
+      rows.forEach((item, index) => {
+        const tr = document.createElement("tr");
+        [String(index + 1), item.t.toFixed(2), item.s.toFixed(2), (item.t * item.t).toFixed(3), item.kind].forEach((value) => {
+          const td = document.createElement("td"); td.textContent = value; tr.appendChild(td);
+        });
+        body.appendChild(tr);
+      });
+    }
+
+    // Canvas-Zeichnung passt sich der Breite an und benötigt keine Bilddatei.
+    function drawChart() {
+      const canvas = byId("chart");
+      const rect = canvas.getBoundingClientRect();
+      if (rect.width < 2) return;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.round(rect.width * dpr);
+      canvas.height = Math.round(rect.height * dpr);
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
+      ctx.scale(dpr, dpr);
+      const width = rect.width, height = rect.height;
+      const pad = { left: 58, right: 18, top: 18, bottom: 48 };
+      const plotW = Math.max(10, width - pad.left - pad.right);
+      const plotH = Math.max(10, height - pad.top - pad.bottom);
+      ctx.clearRect(0, 0, width, height);
+      ctx.fillStyle = "#fbfdff"; ctx.fillRect(0, 0, width, height);
+      const xs = rows.map(r => chartMode === "ts" ? r.t : r.t * r.t);
+      const ys = rows.map(r => r.s);
+      const maxX = Math.max(1, ...xs) * 1.12;
+      const maxY = Math.max(1, ...ys) * 1.12;
+      ctx.strokeStyle = "#d6e1e8"; ctx.lineWidth = 1; ctx.fillStyle = "#526575";
+      ctx.font = "12px system-ui, sans-serif";
+      for (let i = 0; i <= 4; i++) {
+        const x = pad.left + plotW * i / 4;
+        const y = pad.top + plotH * i / 4;
+        ctx.beginPath(); ctx.moveTo(x, pad.top); ctx.lineTo(x, pad.top + plotH); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(pad.left + plotW, y); ctx.stroke();
+        const xValue = maxX * i / 4;
+        const yValue = maxY * (4 - i) / 4;
+        ctx.textAlign = "center"; ctx.fillText(xValue.toFixed(1), x, height - pad.bottom + 19);
+        ctx.textAlign = "right"; ctx.fillText(yValue.toFixed(1), pad.left - 8, y + 4);
+      }
+      ctx.strokeStyle = "#203244"; ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.moveTo(pad.left, pad.top); ctx.lineTo(pad.left, pad.top + plotH); ctx.lineTo(pad.left + plotW, pad.top + plotH); ctx.stroke();
+      ctx.fillStyle = "#203244"; ctx.textAlign = "center"; ctx.font = "13px system-ui, sans-serif";
+      ctx.fillText(chartMode === "ts" ? "Zeit t (s)" : "Zeitquadrat t² (s²)", pad.left + plotW / 2, height - 7);
+      ctx.save(); ctx.translate(15, pad.top + plotH / 2); ctx.rotate(-Math.PI / 2); ctx.fillText("Fallstrecke s (m)", 0, 0); ctx.restore();
+      rows.forEach((item) => {
+        const xVal = chartMode === "ts" ? item.t : item.t * item.t;
+        const x = pad.left + (xVal / maxX) * plotW;
+        const y = pad.top + plotH - (item.s / maxY) * plotH;
+        ctx.beginPath(); ctx.arc(x, y, 5, 0, Math.PI * 2);
+        ctx.fillStyle = item.kind === "Modell" ? "#176b87" : "#007f73";
+        ctx.fill(); ctx.strokeStyle = "#ffffff"; ctx.lineWidth = 1.5; ctx.stroke();
+      });
+      byId("chartDescription").textContent = rows.length
+        ? `${rows.length} Punkt(e) dargestellt. Waagrechte Achse: ${chartMode === "ts" ? "Zeit t in Sekunden" : "Zeitquadrat t² in Sekunden²"}; senkrechte Achse: Strecke s in Metern. Blau: Modellwerte; türkis: eingetragene Messungen.`
+        : "Noch keine Punkte zum Darstellen vorhanden.";
+    }
+
+    heightInput.addEventListener("change", () => { stopAnimation(); updateSimulation(); });
+    gravityInput.addEventListener("change", () => { stopAnimation(); updateSimulation(); });
+    timeSlider.addEventListener("input", updateSimulation);
+    function stopAnimation() { if (animationFrame) cancelAnimationFrame(animationFrame); animationFrame = 0; }
+    function animate(timestamp) {
+      if (!animationStart) animationStart = timestamp;
+      const elapsed = (timestamp - animationStart) / 1000;
+      const t = animationInitialTime + elapsed;
+      timeSlider.value = String(Math.min(t, maximumTime()));
+      updateSimulation();
+      if (t < maximumTime()) animationFrame = requestAnimationFrame(animate);
+      else { animationFrame = 0; }
+    }
+    byId("dropButton").addEventListener("click", () => {
+      stopAnimation(); animationStart = 0; animationInitialTime = 0; timeSlider.value = "0";
+      animationFrame = requestAnimationFrame(animate);
+    });
+    byId("pauseButton").addEventListener("click", () => stopAnimation());
+    byId("recordModel").addEventListener("click", () => {
+      const point = modelAt(currentTime());
+      addRow(point.t, point.s, "Modell");
+      setFeedback(byId("dataFeedback"), "Modellpunkt übernommen. Kennzeichne ihn nicht als reale Messung.", true);
+    });
+    byId("addMeasured").addEventListener("click", () => {
+      const t = Number(byId("manualTime").value.replace(",", "."));
+      const s = Number(byId("manualDistance").value.replace(",", "."));
+      if (byId("manualTime").value.trim() === "" || byId("manualDistance").value.trim() === "" || !Number.isFinite(t) || !Number.isFinite(s) || t < 0 || t > 30 || s < 0 || s > 100) {
+        setFeedback(byId("dataFeedback"), "Bitte gültige Werte eingeben: Zeit 0–30 s, Strecke 0–100 m.", false); return;
+      }
+      addRow(t, s, "Messung");
+      byId("manualTime").value = ""; byId("manualDistance").value = "";
+      setFeedback(byId("dataFeedback"), "Messwert eingetragen. Prüfe Einheit und Dezimalstelle.", true);
+    });
+    byId("clearData").addEventListener("click", () => {
+      rows.length = 0; renderRows(); drawChart();
+      setFeedback(byId("dataFeedback"), "Alle Werte aus der geöffneten Seite gelöscht.", true);
+    });
+    function chooseChart(mode) {
+      chartMode = mode;
+      byId("tsButton").setAttribute("aria-pressed", String(mode === "ts"));
+      byId("t2sButton").setAttribute("aria-pressed", String(mode === "t2s"));
+      drawChart();
+    }
+    byId("tsButton").addEventListener("click", () => chooseChart("ts"));
+    byId("t2sButton").addEventListener("click", () => chooseChart("t2s"));
+    window.addEventListener("resize", drawChart);
+
+    byId("check1").addEventListener("click", () => {
+      const value = byId("q1").value;
+      if (!value) setFeedback(byId("feedback1"), "Wähle zuerst eine Antwort.", false);
+      else if (value === "c") setFeedback(byId("feedback1"), "Richtig: s = ½ · g · t². Eine Verdopplung der Zeit vervierfacht im Modell die Strecke.", true);
+      else setFeedback(byId("feedback1"), "Noch nicht. Nutze s = ½ · g · t²: Die Strecke hängt vom Quadrat der Zeit ab.", false);
+    });
+    byId("check2").addEventListener("click", () => {
+      const raw = byId("q2").value.trim().replace(",", ".");
+      const value = Number(raw);
+      if (raw === "" || !Number.isFinite(value)) setFeedback(byId("feedback2"), "Gib zuerst eine Zahl ein.", false);
+      else if (Math.abs(value - 1.25) < 0.06) setFeedback(byId("feedback2"), "Richtig: s = ½ · 10 · (0,50)² = 1,25 m.", true);
+      else setFeedback(byId("feedback2"), "Prüfe: erst t quadrieren, dann mit g multiplizieren und durch 2 teilen. Ergebnis in Metern.", false);
+    });
+    byId("check3").addEventListener("click", () => {
+      const value = byId("q3").value;
+      if (!value) setFeedback(byId("feedback3"), "Wähle zuerst eine Antwort.", false);
+      else if (value === "nein") setFeedback(byId("feedback3"), "Richtig. Im luftleeren Raum fallen sie im idealen Modell gleich schnell. In Luft kann der Luftwiderstand Unterschiede verursachen.", true);
+      else setFeedback(byId("feedback3"), "Im luftleeren Raum wirkt im Modell nur die Gravitation. Die größere Gewichtskraft wird durch die größere Masse ausgeglichen; die Fallbeschleunigung ist gleich.", false);
+    });
+    const correctBlanks = { blank1: "constant", blank2: "t2", blank3: "curve", blank4: "straight" };
+    byId("checkBlanks").addEventListener("click", () => {
+      let correct = 0, filled = 0;
+      Object.entries(correctBlanks).forEach(([id, expected]) => {
+        const value = byId(id).value;
+        if (value) filled++;
+        if (value === expected) correct++;
+      });
+      if (filled < 4) setFeedback(byId("blankFeedback"), `Noch nicht vollständig: ${correct} von 4 Lücken richtig.`, false);
+      else if (correct === 4) setFeedback(byId("blankFeedback"), "Alles richtig! Erkläre den Zusammenhang anschließend mit eigenen Worten.", true);
+      else setFeedback(byId("blankFeedback"), `${correct} von 4 richtig. Denke an s = ½ · g · t² und die Form der beiden Diagramme.`, false);
+    });
+    byId("showBlanks").addEventListener("click", () => {
+      Object.entries(correctBlanks).forEach(([id, value]) => { byId(id).value = value; });
+      byId("completedRule").hidden = false;
+      setFeedback(byId("blankFeedback"), "Lösung eingeblendet. Lies den Merksatz laut oder schreibe ihn ab.", true);
+    });
+
+    updateSimulation();
+    renderRows();
+    drawChart();
+  </script>
+</body>
+</html>
