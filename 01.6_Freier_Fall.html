@@ -92,13 +92,7 @@
   </style>
 </head>
 <body>
-  <header>
-    <div class="wrap">
-      <p class="eyebrow">Physik · Jahrgangsstufe 10 · Realschule</p>
-      <h1>Freier Fall: messen, darstellen, erklären</h1>
-      <p>Untersuche, wie Fallstrecke und Fallzeit zusammenhängen. Probiere das Modell aus, trage Messwerte ein und vergleiche ein <em>t-s</em>-Diagramm mit einem <em>t²-s</em>-Diagramm.</p>
-    </div>
-  </header>
+  <header><div class="wrap"><h1>Freier Fall</h1></div></header>
   <main class="wrap">
     <section aria-labelledby="ziel">
       <h2 id="ziel">Dein Auftrag</h2>
@@ -106,12 +100,11 @@
         <div class="callout"><strong>Lernziel</strong><br>Du führst eine sichere Untersuchung zum freien Fall durch, hältst Messwerte fest, stellst sie in Diagrammen dar und formulierst eine passende Regel.</div>
         <div class="callout green"><strong>Was bedeutet „freier Fall“?</strong><br>Im physikalischen Modell wirkt nur die Gewichtskraft. Luftwiderstand wird zunächst vernachlässigt. Für den Fall nahe der Erdoberfläche verwenden wir hier als Ergänzung zum Arbeitsblatt den Näherungswert <strong>g = 9,81 m/s²</strong>.</div>
       </div>
-      <p class="small">Das bereitgestellte Arbeitsblatt nennt den freien Fall sowie den Vergleich von Energiebetrachtungen mit Luft und im luftleeren Raum. Die unten stehende Simulation, Diagrammanleitung und Zahlenbeispiele sind ergänzende Lernhilfen; die OCR-Fassung des Arbeitsblatts ist teilweise unleserlich.</p>
     </section>
 
-    <section aria-labelledby="experiment">
+    <section id="experiment" aria-labelledby="experiment">
       <h2 id="experiment">1 · Experimentierfeld: Fallbewegung erkunden</h2>
-      <p>Stelle die Fallhöhe ein und bewege den Zeitregler. Die Kugel zeigt die berechnete Position im <strong>idealen Modell</strong>. Damit kannst du Messzeitpunkte planen. Das Modell ersetzt keine reale Messung.</p>
+      <p>Wähle eine Fallhöhe und einen Himmelskörper aus. Bewege anschließend den Zeitregler. Die Kugel zeigt die berechnete Position im <strong>idealen Modell</strong>. Damit kannst du Messzeitpunkte planen. Das Modell ersetzt keine reale Messung.</p>
       <div class="sim-layout">
         <div class="stage-wrap" aria-label="Schematische Darstellung der fallenden Kugel">
           <div class="stage-label">Fallstrecke <span id="stageHeight">5,0 m</span></div>
@@ -131,12 +124,12 @@
             <div>
               <label for="height">Fallhöhe</label>
               <select id="height">
-                <option value="2">2 m</option><option value="5" selected>5 m</option><option value="10">10 m</option>
+                <option value="1">1 m</option><option value="2">2 m</option><option value="3">3 m</option><option value="5" selected>5 m</option><option value="8">8 m</option><option value="10">10 m</option><option value="15">15 m</option><option value="20">20 m</option>
               </select>
             </div>
             <div>
-              <label for="gravity">Fallbeschleunigung g (m/s²)</label>
-              <input id="gravity" type="number" min="1" max="20" step="0.01" value="9.81" inputmode="decimal">
+              <label for="gravity">Himmelskörper · feste Fallbeschleunigung</label>
+              <select id="gravity"><option value="9.81">Erde · 9,81 m/s²</option><option value="3.71">Mars · 3,71 m/s²</option><option value="1.62">Mond · 1,62 m/s²</option></select>
             </div>
           </div>
           <label for="timeSlider">Zeitpunkt der Modellbewegung</label>
@@ -144,43 +137,25 @@
           <div class="button-row">
             <button type="button" id="dropButton">Fall starten</button>
             <button type="button" class="secondary" id="pauseButton">Anhalten</button>
-            <button type="button" class="gold" id="recordModel">Modellpunkt übernehmen</button>
+            
           </div>
           <p class="small">Modellgleichungen bei Start aus der Ruhe: <strong>s = ½ · g · t²</strong> und <strong>v = g · t</strong>. Die angezeigte Strecke wird bei der eingestellten Höhe begrenzt.</p>
-          <div class="callout"><strong>Forscherfrage</strong><br>Verdopple den Zeitpunkt. Was geschieht ungefähr mit der Fallstrecke? Prüfe anschließend, ob die Punkte im t²-s-Diagramm annähernd auf einer Geraden liegen.</div>
         </div>
       </div>
-      <h3>Reales Experiment – sicher und sorgfältig</h3>
-      <ol>
-        <li>Arbeite nur mit einer kleinen, leichten, weichen Kugel und an einem freien, abgesperrten Platz. Nicht von Treppen, Fenstern oder Möbeln springen lassen und keine schweren Gegenstände fallen lassen.</li>
-        <li>Lege eine bekannte Fallhöhe fest und miss sie vom Startpunkt bis zum Boden. Eine Lehrkraft beaufsichtigt den Versuch.</li>
-        <li>Miss die Fallzeit mit dem im Unterricht vorgesehenen Messverfahren. Wiederhole die Messung mehrfach; notiere Höhe, Zeiten und Bedingungen. Reaktionszeit kann die Handstoppung merklich verfälschen.</li>
-        <li>Gib für jede Messung die mittlere Fallstrecke an. Trage Zeit t in Sekunden und Strecke s in Metern ein. Falls euer Arbeitsblatt ein anderes Verfahren vorgibt, folgt diesem und den Sicherheitsregeln der Lehrkraft.</li>
-      </ol>
-      <p class="small"><strong>Hinweis:</strong> Bei sehr kurzen Fallzeiten ist die Handstoppung ungenau. Für gute Ergebnisse eignen sich ein geeignetes schulisches Messgerät oder eine sichere, von der Lehrkraft angeleitete Videoauswertung. Es werden hier keine Kamera- oder Sensordaten ausgelesen.</p>
     </section>
 
     <section aria-labelledby="messwerte">
-      <h2 id="messwerte">2 · Messwerte aufnehmen</h2>
-      <p>Füge hier echte Messwerte aus eurem Experiment ein. Dezimalzahlen sind erlaubt. Die Daten bleiben nur so lange in dieser offenen Seite im Arbeitsspeicher und verschwinden beim Neuladen oder Schließen. Modellpunkte sind ausdrücklich als solche markiert.</p>
-      <div class="controls-grid">
-        <div><label for="manualTime">Gemessene Zeit t (s)</label><input id="manualTime" type="number" min="0" max="30" step="0.01" placeholder="z. B. 0,40" inputmode="decimal"></div>
-        <div><label for="manualDistance">Fallstrecke s (m)</label><input id="manualDistance" type="number" min="0" max="100" step="0.01" placeholder="z. B. 0,80" inputmode="decimal"></div>
-      </div>
-      <div class="button-row"><button type="button" id="addMeasured">Messwert eintragen</button><button type="button" class="secondary" id="clearData">Alle Messwerte löschen</button></div>
+      <h2 id="messwerte">2 · Experiment: Fallzeiten bei verschiedenen Fallhöhen</h2>
+      <p><strong>Arbeitsauftrag:</strong> Wähle nacheinander verschiedene Fallhöhen im Experimentierfeld aus. Starte für jede Höhe den Fall und notiere die zugehörige Fallzeit in der Tabelle. Vergleiche anschließend deine Ergebnisse. Die Simulation zeigt Modellwerte ohne Luftwiderstand.</p>
+      <p class="small">Ausgewählter Himmelskörper: <strong id="planetRead">Erde</strong>. Trage die Fallzeit in Sekunden ein; das Diagramm übernimmt deine Eingaben.</p>
+      <div class="table-scroll"><table><thead><tr><th>Fallhöhe h (m)</th><th>Fallzeit t (s) – deine Eintragung</th><th>Aktion</th></tr></thead><tbody id="experimentRows"></tbody></table></div>
+      <div class="button-row"><button type="button" id="checkTimes">Fallzeiten überprüfen</button><button type="button" class="secondary" id="clearData">Einträge zurücksetzen</button></div>
       <p class="feedback" id="dataFeedback" role="status" aria-live="polite"></p>
-      <div class="table-scroll">
-        <table>
-          <thead><tr><th scope="col">Nr.</th><th scope="col">Zeit t (s)</th><th scope="col">Strecke s (m)</th><th scope="col">t² (s²)</th><th scope="col">Art</th></tr></thead>
-          <tbody id="dataRows"><tr><td colspan="5">Noch keine Werte. Trage eine Messung ein oder übernimm Modellpunkte.</td></tr></tbody>
-        </table>
-      </div>
-      <p class="small">Modellpunkte helfen beim Erkunden der Theorie. Für die Auswertung eures Versuchs verwendet und kennzeichnet eure tatsächlichen Messwerte.</p>
     </section>
 
     <section aria-labelledby="diagramme">
       <h2 id="diagramme">3 · Diagramme erstellen und vergleichen</h2>
-      <p>Wähle ein Diagramm. Die Punkte stammen aus der Tabelle. Achsen beginnen bei null; die Skalierung passt sich an die vorhandenen Werte an.</p>
+      <p>Wähle ein Diagramm. Die Punkte stammen aus deinen Einträgen in der Fallzeit-Tabelle. Achsen beginnen bei null; die Skalierung passt sich an die vorhandenen Werte an.</p>
       <div class="chart-switch" role="group" aria-label="Diagramm auswählen">
         <button type="button" id="tsButton" aria-pressed="true">t-s-Diagramm</button>
         <button type="button" id="t2sButton" aria-pressed="false">t²-s-Diagramm</button>
@@ -190,21 +165,11 @@
         <div class="callout"><strong>t-s-Diagramm</strong><br>Waagrecht: Zeit t in s. Senkrecht: Fallstrecke s in m. Im idealen freien Fall ist der Graph gekrümmt: In gleichen Zeitabschnitten kommt jeweils mehr Strecke hinzu.</div>
         <div class="callout green"><strong>t²-s-Diagramm</strong><br>Berechne für jede Zeit t den Wert t² und trage t² waagrecht (in s²), s senkrecht (in m) ein. Im idealen Modell entsteht eine Gerade durch den Ursprung. Ihre Steigung ist ungefähr g/2.</div>
       </div>
-      <details><summary>So gehst du beim Zeichnen auf Papier vor</summary>
-        <ol><li>Erstelle eine übersichtliche Wertetabelle mit t, s und t².</li><li>Beschrifte beide Achsen mit Größe und Einheit. Wähle eine gleichmäßige Skala, die den gesamten Wertebereich abdeckt.</li><li>Trage die Messpunkte sorgfältig ein. Verbinde sie nicht zickzackartig; zeichne eine passende Ausgleichslinie bzw. Ausgleichskurve.</li><li>Vergleiche den Verlauf. Für das t²-s-Diagramm kannst du die Steigung der Geraden abschätzen: Steigung ≈ Δs/Δ(t²) ≈ g/2.</li></ol>
-      </details>
       <p class="small" id="chartDescription" aria-live="polite">Noch keine Punkte zum Darstellen vorhanden.</p>
     </section>
 
-    <section aria-labelledby="energie">
-      <h2 id="energie">4 · Verbindung zum Arbeitsblatt: Energie</h2>
-      <p>Das bereitgestellte Arbeitsblatt führt eine Energiebetrachtung mit Luft und im luftleeren Raum auf. Im idealisierten Modell ohne Luftwiderstand wird Lageenergie beim Fallen in Bewegungsenergie umgewandelt. Mit Luftwiderstand wird ein Teil der mechanischen Energie an die Umgebung abgegeben, zum Beispiel als Wärme und durch Luftbewegung.</p>
-      <div class="callout"><strong>Zum Nachdenken:</strong> Warum können zwei unterschiedlich geformte Gegenstände in Luft unterschiedlich fallen, obwohl die Gewichtskraft auf beide wirkt? Welche Rolle spielt der Luftwiderstand?</div>
-      <p class="small">Die Energieerklärung ist eine fachliche Ergänzung zur im Arbeitsblatt erkennbaren Gegenüberstellung „mit Luft / luftleer“; Details der schlecht lesbaren Aufgaben wurden nicht rekonstruiert.</p>
-    </section>
-
     <section aria-labelledby="uebungen">
-      <h2 id="uebungen">5 · Üben und direkt prüfen</h2>
+      <h2 id="uebungen">4 · Üben und direkt prüfen</h2>
       <div class="two-col">
         <div class="card" style="margin:0;box-shadow:none">
           <span class="tag">Grundwissen</span>
@@ -235,30 +200,13 @@
     </section>
 
     <section aria-labelledby="merke">
-      <h2 id="merke">6 · Merksatz: Lückentext</h2>
+      <h2 id="merke">5 · Merksatz: Lückentext</h2>
       <p>Wähle die passenden Wörter aus. Du kannst die Auswahl jederzeit ändern und erneut prüfen.</p>
       <div class="answer-row"><span>Beim idealen freien Fall aus der Ruhe ist die Beschleunigung</span><select id="blank1" aria-label="Lücke 1"><option value="">…</option><option value="constant">konstant</option><option value="growing">zunehmend</option><option value="zero">null</option></select><span>. Die Fallstrecke ist proportional zum</span><select id="blank2" aria-label="Lücke 2"><option value="">…</option><option value="t">Zeit t</option><option value="t2">Quadrat der Zeit t²</option><option value="mass">Masse</option></select><span>: s = ½ · g · t².</span></div>
       <div class="answer-row"><span>Im t-s-Diagramm ist der Graph</span><select id="blank3" aria-label="Lücke 3"><option value="">…</option><option value="line">eine Gerade</option><option value="curve">gekrümmt</option></select><span>; im t²-s-Diagramm ergibt sich idealerweise</span><select id="blank4" aria-label="Lücke 4"><option value="">…</option><option value="straight">eine Gerade</option><option value="curve">eine gekrümmte Linie</option></select><span>.</span></div>
       <div class="button-row"><button type="button" id="checkBlanks">Merksatz prüfen</button><button type="button" class="secondary" id="showBlanks">Lösung anzeigen</button></div>
       <p class="feedback" id="blankFeedback" role="status" aria-live="polite"></p>
       <p id="completedRule" class="callout green" hidden><strong>Merksatz:</strong> Beim idealen freien Fall aus der Ruhe ist die Beschleunigung konstant. Die Fallstrecke wächst proportional zum Quadrat der Zeit. Deshalb ist das t-s-Diagramm gekrümmt, das t²-s-Diagramm idealerweise eine Gerade.</p>
-    </section>
-
-    <section aria-labelledby="lehrkraft">
-      <h2 id="lehrkraft">Handreichung für Lehrkräfte</h2>
-      <h3>Unterrichtsidee (ca. 25–40 Minuten)</h3>
-      <ol><li><strong>Einstieg (3–5 min):</strong> Vorhersage: Welche Strecke legt ein Körper in gleichen Zeitabschnitten zurück? Vermutungen zunächst sammeln.</li><li><strong>Erkunden (8–12 min):</strong> Schülerinnen und Schüler variieren Fallhöhe und Zeitpunkt im Modell. Dabei deutlich zwischen Modellwerten und realen Messwerten unterscheiden.</li><li><strong>Experiment und Auswertung (10–15 min):</strong> Nach den Sicherheitsregeln des Arbeitsblatts messen, Werte in die Tabelle übertragen und Papierdiagramme erstellen. Die Canvas-Diagramme dienen als unmittelbare Sichtkontrolle.</li><li><strong>Sicherung (5–8 min):</strong> t-s- und t²-s-Diagramm vergleichen, Steigung deuten und Lückentext als individuellen Abschluss bearbeiten.</li></ol>
-      <h3>Differenzierung</h3>
-      <ul><li><strong>Unterstützung:</strong> Fallhöhe 2 m wählen, eine vorstrukturierte Tabelle austeilen und Achsenskalierung gemeinsam festlegen; Einheiten farblich markieren.</li><li><strong>Regelstandard:</strong> Mindestens vier Messwerte aufnehmen, t² berechnen, beide Diagramme zeichnen und den Verlauf erläutern.</li><li><strong>Erweiterung:</strong> Steigung im t²-s-Diagramm bestimmen und daraus g ≈ 2 · Steigung abschätzen. Messstreuung und Einfluss der Luft bzw. Reaktionszeit diskutieren.</li><li><strong>Sprachsensibel:</strong> Satzstarter nutzen: „Wenn sich t verdoppelt, dann …“ und „Die Steigung bedeutet …“.</li></ul>
-      <h3>ByCS-Lernplattform: Einbindung</h3>
-      <ul><li>HTML-Datei lokal herunterladen und vor dem Einsatz im Zielbrowser prüfen. In der ByCS-Lernplattform entsprechend der dort verfügbaren Funktion als Datei/Material bereitstellen oder in einem unterstützten HTML-Inhaltsbereich verwenden.</li><li>Wenn die Plattform aktive HTML-Dateien oder Inline-JavaScript einschränkt, Datei nicht ungeprüft in ein Textfeld kopieren. Vorab im Kurs mit einer Testressource prüfen, wie die Plattform die Datei verarbeitet.</li><li>Die Lerneinheit arbeitet ohne externe Ressourcen und ohne Speicherung. Einträge bestehen nur im Arbeitsspeicher der geöffneten Seite; für eine Sicherung müssen Lernende ihre Ergebnisse selbst ins Heft/Arbeitsblatt übertragen.</li></ul>
-      <p class="source-note"><strong>Materialbezug und Rechte:</strong> Fachlicher Ausgangspunkt ist die bereitgestellte Unterrichtsquelle „01.6_Freier Fall_AB FERTIG.pdf“ (vom Auftraggeber bereitgestellt; Rechte am Originalmaterial bleiben bei den jeweiligen Rechteinhabern). Die OCR-Übertragung ist teilweise beschädigt; sicher erkennbar sind Thema freier Fall und Energiebetrachtung mit Luft bzw. luftleer. Unleserliche Aufgaben wurden nicht wörtlich übernommen. Gleichungen, g-Näherungswert, Simulation, Diagrammanleitung und Übungsfragen sind als eigene Ergänzungen für diese Lerneinheit formuliert. Gestaltung, CSS-Zeichnung und JavaScript sind eigens erstellt; keine fremden Bilder, Fonts, Bibliotheken oder sonstigen Medien verwendet.</p>
-    </section>
-
-    <section aria-labelledby="checkliste">
-      <h2 id="checkliste">Prüfliste vor dem Einstellen in ByCS</h2>
-      <ul><li>Quelltext vor Änderungen prüfen; nur vertrauenswürdige und nachvollziehbare Ergänzungen übernehmen.</li><li>Im Quelltext nach <code>http</code>, <code>fetch</code>, <code>XMLHttpRequest</code>, <code>WebSocket</code>, <code>sendBeacon</code>, <code>eval</code>, <code>innerHTML</code>, <code>localStorage</code>, <code>sessionStorage</code>, <code>IndexedDB</code> und <code>document.cookie</code> suchen.</li><li>In den Entwicklertools/Netzwerkprotokollen beim Öffnen und Bedienen kontrollieren, dass keine Verbindungen aufgebaut werden.</li><li>Prüfen, dass keine Namen oder sonstigen personenbezogenen Daten abgefragt, gespeichert oder übertragen werden.</li><li>Neue Inhalte, Grafiken oder Medien auf Herkunft, Lizenz und schulische Nutzungsrechte überprüfen.</li><li>Darstellung, Tastaturbedienung und Lesbarkeit auf den tatsächlich verwendeten Geräten (insbesondere iPad und Zielbrowser) testen.</li></ul>
-      <p><strong>URLs im Code:</strong> Keine. (Auch die Grafiken werden mit CSS erzeugt; es gibt keine externen Verweise.)</p>
     </section>
   </main>
   <footer>Diese Lernseite speichert oder versendet keine Eingaben. Beim Neuladen gehen die eingetragenen Werte verloren.</footer>
@@ -267,6 +215,7 @@
     "use strict";
     // Alle Zustände verbleiben ausschließlich im Arbeitsspeicher dieser Seite.
     const rows = [];
+    const heights = [1,2,3,5,8,10,15,20];
     let chartMode = "ts";
     let animationFrame = 0;
     let animationStart = 0;
@@ -279,7 +228,7 @@
 
     function readGravity() {
       const value = Number(gravityInput.value);
-      return Number.isFinite(value) && value >= 1 && value <= 20 ? value : 9.81;
+      return [9.81, 3.71, 1.62].includes(value) ? value : 9.81;
     }
     function maximumTime() {
       const h = Number(heightInput.value);
@@ -313,30 +262,32 @@
       element.textContent = message;
       element.className = `feedback ${good ? "good" : "bad"}`;
     }
-    function addRow(t, s, kind) {
-      if (!Number.isFinite(t) || !Number.isFinite(s) || t < 0 || s < 0) return false;
-      rows.push({ t, s, kind });
-      renderRows();
-      drawChart();
-      return true;
-    }
-    function renderRows() {
-      const body = byId("dataRows");
-      body.replaceChildren();
-      if (rows.length === 0) {
+    function renderExperiment() {
+      const body = byId("experimentRows"); body.replaceChildren();
+      heights.forEach(h => {
         const tr = document.createElement("tr");
-        const td = document.createElement("td");
-        td.colSpan = 5;
-        td.textContent = "Noch keine Werte. Trage eine Messung ein oder übernimm Modellpunkte.";
-        tr.appendChild(td); body.appendChild(tr); return;
-      }
-      rows.forEach((item, index) => {
-        const tr = document.createElement("tr");
-        [String(index + 1), item.t.toFixed(2), item.s.toFixed(2), (item.t * item.t).toFixed(3), item.kind].forEach((value) => {
-          const td = document.createElement("td"); td.textContent = value; tr.appendChild(td);
-        });
-        body.appendChild(tr);
+        const heightCell = document.createElement("td"); heightCell.textContent = `${h} m`;
+        const inputCell = document.createElement("td");
+        const input = document.createElement("input"); input.type = "number"; input.min = "0.01"; input.max = "30"; input.step = "0.01";
+        input.inputMode = "decimal"; input.id = `falltime-${h}`; input.setAttribute("aria-label", `Fallzeit für ${h} Meter in Sekunden`); input.placeholder = "Zeit in s";
+        input.addEventListener("input", updateTableChart);
+        inputCell.appendChild(input);
+        const action = document.createElement("td");
+        const button = document.createElement("button"); button.type = "button"; button.className = "secondary"; button.textContent = "Höhe wählen";
+        button.addEventListener("click", () => { stopAnimation(); heightInput.value = String(h); timeSlider.value = "0"; updateSimulation(); byId("experiment").scrollIntoView({behavior:"smooth"}); });
+        action.appendChild(button); tr.append(heightCell,inputCell,action); body.appendChild(tr);
       });
+      updateTableChart();
+    }
+    function updateTableChart() {
+      rows.length = 0;
+      heights.forEach(h => {
+        const input = byId(`falltime-${h}`);
+        if (!input || !input.value.trim()) return;
+        const t = Number(input.value);
+        if (Number.isFinite(t) && t > 0 && t <= 30) rows.push({t,s:h,kind:"Messung"});
+      });
+      drawChart();
     }
 
     // Canvas-Zeichnung passt sich der Breite an und benötigt keine Bilddatei.
@@ -386,12 +337,12 @@
         ctx.fill(); ctx.strokeStyle = "#ffffff"; ctx.lineWidth = 1.5; ctx.stroke();
       });
       byId("chartDescription").textContent = rows.length
-        ? `${rows.length} Punkt(e) dargestellt. Waagrechte Achse: ${chartMode === "ts" ? "Zeit t in Sekunden" : "Zeitquadrat t² in Sekunden²"}; senkrechte Achse: Strecke s in Metern. Blau: Modellwerte; türkis: eingetragene Messungen.`
+        ? `${rows.length} Punkt(e) dargestellt. Waagrechte Achse: ${chartMode === "ts" ? "Zeit t in Sekunden" : "Zeitquadrat t² in Sekunden²"}; senkrechte Achse: Strecke s in Metern. Türkis: eingetragene Fallzeiten.`
         : "Noch keine Punkte zum Darstellen vorhanden.";
     }
 
     heightInput.addEventListener("change", () => { stopAnimation(); updateSimulation(); });
-    gravityInput.addEventListener("change", () => { stopAnimation(); updateSimulation(); });
+    gravityInput.addEventListener("change", () => { stopAnimation(); timeSlider.value="0"; updateSimulation(); byId("planetRead").textContent = gravityInput.options[gravityInput.selectedIndex].text.split(" · ")[0]; heights.forEach(h => { const el=byId(`falltime-${h}`); el.style.borderColor=""; }); setFeedback(byId("dataFeedback"), "Himmelskörper gewechselt: Fallzeiten für diesen Himmelskörper neu bestimmen.", false); });
     timeSlider.addEventListener("input", updateSimulation);
     function stopAnimation() { if (animationFrame) cancelAnimationFrame(animationFrame); animationFrame = 0; }
     function animate(timestamp) {
@@ -408,24 +359,22 @@
       animationFrame = requestAnimationFrame(animate);
     });
     byId("pauseButton").addEventListener("click", () => stopAnimation());
-    byId("recordModel").addEventListener("click", () => {
-      const point = modelAt(currentTime());
-      addRow(point.t, point.s, "Modell");
-      setFeedback(byId("dataFeedback"), "Modellpunkt übernommen. Kennzeichne ihn nicht als reale Messung.", true);
-    });
-    byId("addMeasured").addEventListener("click", () => {
-      const t = Number(byId("manualTime").value.replace(",", "."));
-      const s = Number(byId("manualDistance").value.replace(",", "."));
-      if (byId("manualTime").value.trim() === "" || byId("manualDistance").value.trim() === "" || !Number.isFinite(t) || !Number.isFinite(s) || t < 0 || t > 30 || s < 0 || s > 100) {
-        setFeedback(byId("dataFeedback"), "Bitte gültige Werte eingeben: Zeit 0–30 s, Strecke 0–100 m.", false); return;
-      }
-      addRow(t, s, "Messung");
-      byId("manualTime").value = ""; byId("manualDistance").value = "";
-      setFeedback(byId("dataFeedback"), "Messwert eingetragen. Prüfe Einheit und Dezimalstelle.", true);
+    byId("checkTimes").addEventListener("click", () => {
+      let entered = 0, correct = 0;
+      heights.forEach(h => {
+        const input = byId(`falltime-${h}`);
+        if (!input.value.trim()) return;
+        entered++;
+        const t = Number(input.value);
+        const expected = Math.sqrt(2*h/readGravity());
+        input.style.borderColor = Number.isFinite(t) && Math.abs(t-expected) <= 0.06 ? "#176b45" : "#9a3c2c";
+        if (Number.isFinite(t) && Math.abs(t-expected) <= 0.06) correct++;
+      });
+      setFeedback(byId("dataFeedback"), entered ? `${correct} von ${entered} eingetragenen Fallzeiten stimmen mit dem Modell überein (Toleranz ±0,06 s).` : "Trage zuerst mindestens eine Fallzeit ein.", entered > 0 && correct === entered);
     });
     byId("clearData").addEventListener("click", () => {
-      rows.length = 0; renderRows(); drawChart();
-      setFeedback(byId("dataFeedback"), "Alle Werte aus der geöffneten Seite gelöscht.", true);
+      heights.forEach(h => { const el=byId(`falltime-${h}`); el.value=""; el.style.borderColor=""; });
+      updateTableChart(); setFeedback(byId("dataFeedback"), "Alle Fallzeiten zurückgesetzt.", true);
     });
     function chooseChart(mode) {
       chartMode = mode;
@@ -475,7 +424,7 @@
     });
 
     updateSimulation();
-    renderRows();
+    renderExperiment();
     drawChart();
   </script>
 </body>
