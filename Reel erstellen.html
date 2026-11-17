@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; object-src 'none'; form-action 'none'; connect-src 'none'; img-src data:; font-src 'none'; media-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'">
+<title>Reel-Labor | CapCut</title>
+<style>
+/* Alle Grafiken sind CSS-Elemente. Keine externen Ressourcen. */
+:root{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#ecf3ff;background:#0c1325;font-size:17px;line-height:1.5}*{box-sizing:border-box}body{margin:0}button,input,select{font:inherit}button{cursor:pointer;touch-action:manipulation;min-height:48px;border-radius:13px;border:1px solid #526487;background:#243452;color:#fff;padding:10px 15px}button:hover,button:focus-visible{border-color:#a5d9ff;outline:2px solid transparent;background:#30476c}button.primary{background:#64e5cf;color:#0a2530;border-color:#64e5cf;font-weight:750}button.secondary{background:#233452}button:disabled{opacity:.45;cursor:default}input,select{background:#101d34;border:1px solid #6b82a6;color:white;border-radius:12px;min-height:48px;padding:10px;width:100%}input:focus-visible,select:focus-visible{outline:3px solid #64e5cf}header{padding:24px max(18px,calc((100vw - 1150px)/2));background:linear-gradient(120deg,#162e54,#122039 60%,#243a4c);border-bottom:1px solid #3d5878}header h1{margin:5px 0;font-size:clamp(1.7rem,4vw,2.8rem);line-height:1.15}header p{margin:6px 0;color:#c6d7ec}.eyebrow{color:#7ff5d9;font-size:.78rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase}.shell{max-width:1150px;margin:auto;padding:22px 16px 60px}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}.tabs button[aria-selected=true]{background:#64e5cf;color:#082b34;border-color:#64e5cf;font-weight:800}.panel{background:#17253d;border:1px solid #354966;border-radius:20px;padding:clamp(16px,3vw,26px);margin-bottom:18px}.panel h2{margin:0 0 10px;font-size:1.4rem}.muted{color:#b6c8df}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.step{padding:16px;border:1px solid #3e5374;border-radius:15px;background:#1e3050}.step strong{display:block;margin-bottom:7px;color:#88f4df}.step p{margin:0;font-size:.94rem}.tag{display:inline-block;border:1px solid #6586a8;border-radius:100px;padding:3px 10px;color:#a7e8fb;font-size:.78rem}.lab{display:grid;grid-template-columns:minmax(250px,370px) minmax(280px,1fr);gap:22px;align-items:start}.phone{width:100%;max-width:340px;margin:auto;background:#050b17;border:7px solid #39475e;border-radius:30px;padding:12px;box-shadow:0 12px 30px #0005}.screen{aspect-ratio:9/16;border-radius:18px;position:relative;overflow:hidden;background:linear-gradient(145deg,#203e62,#4c6880 45%,#163d52);display:flex;align-items:center;justify-content:center;text-align:center;padding:25px}.screen::before{content:"";position:absolute;width:180px;height:180px;border:4px solid #a7e9e9;border-radius:50%;top:22%;left:16%;opacity:.25}.screen::after{content:"";position:absolute;width:90px;height:90px;background:#9ce1e8;opacity:.18;transform:rotate(45deg);bottom:22%;right:10%}.visual{z-index:1}.visual .symbol{font-size:3.7rem;display:block}.hook{font-weight:850;font-size:1.2rem;text-shadow:0 2px 8px #071626}.subtitles{position:absolute;bottom:13%;left:8%;right:8%;z-index:2;font-weight:700;background:#000b;padding:5px;border-radius:5px;font-size:.86rem}.audio{position:absolute;bottom:4%;left:8%;right:8%;z-index:2;color:#a8ffdf;font-size:.8rem}.editor label{display:block;font-weight:700;margin:14px 0 6px}.editor .help{font-size:.88rem;color:#bdcee3;margin:5px 0 0}.choice{display:flex;gap:8px;flex-wrap:wrap}.choice button{flex:1;min-width:100px}.choice button.active{background:#64e5cf;color:#0c2731;font-weight:800}.status{margin:14px 0;padding:12px;border-radius:12px;background:#213958;border-left:4px solid #64e5cf}.hidden{display:none!important}.quiz-choice{display:block;width:100%;text-align:left;margin:8px 0}.quiz-choice.chosen{border-color:#64e5cf;background:#305268}.feedback{padding:12px 15px;border-radius:12px;margin-top:12px;background:#233d50}.feedback.bad{border-left:4px solid #ffa77f}.feedback.good{border-left:4px solid #64e5cf}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.stat{background:#213451;border-radius:13px;padding:12px;text-align:center}.stat strong{display:block;font-size:1.65rem}.bar{height:22px;display:flex;border-radius:30px;overflow:hidden;background:#33445e;margin:14px 0 6px}.bar .right{background:#64e5cf;width:0;transition:width .2s}.bar .wrong{background:#ff9b82;width:0;transition:width .2s}.legend{font-size:.86rem;color:#c9d8e9}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}.notice{border-left:4px solid #f9cb7c;background:#29344b;padding:12px;border-radius:8px}footer{color:#aebed1;font-size:.82rem;margin-top:25px}.fraction{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.15;margin:0 .15em}.fraction .num{border-bottom:1.5px solid currentColor;padding:0 .2em .12em}.fraction .den{padding:.12em .2em 0}@media(max-width:800px){.steps{grid-template-columns:repeat(2,minmax(0,1fr))}.lab{grid-template-columns:1fr}.phone{max-width:270px}.grid{grid-template-columns:1fr}}@media(max-width:420px){.steps{grid-template-columns:1fr}.stats{gap:5px}.stat{padding:9px 4px}.stat strong{font-size:1.35rem}.tabs button{flex:1}}@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header><h1>🎬 Reel-Labor</h1><p>Plane ein kurzes Physik-Reel mit CapCut: Hook, Video, Untertitel und Audio.</p></header>
+<main class="shell">
+<nav class="tabs" aria-label="Lernbereiche"><button type="button" data-tab="guide" aria-selected="true">1 · Verstehen</button><button type="button" data-tab="lab" aria-selected="false">2 · Ausprobieren</button></nav>
+<section id="guide" class="tabpage">
+<div class="panel"><h2>Auftrag</h2><p>Erstelle ein sachlich richtiges Reel, das ein physikalisches Phänomen verständlich erklärt.</p></div>
+<div class="steps">
+<div class="step"><strong>01 · Hook</strong><p>Eine Hook ist der Einstieg, der sofort neugierig macht. Beispiel: „Doppelte Geschwindigkeit – doppelter Bremsweg?“ In CapCut: <b>Text</b> wählen, Text eingeben und am Anfang platzieren.</p></div>
+<div class="step"><strong>02 · Video</strong><p>In CapCut ein <b>neues Projekt</b> starten, ein selbst aufgenommenes Video auswählen und zur Zeitleiste hinzufügen. Clips bei Bedarf kürzen und sortieren.</p></div>
+<div class="step"><strong>03 · Untertitel</strong><p>Unter <b>Text → Automatische Untertitel</b> (Bezeichnung je nach Version unterschiedlich) Sprache auswählen, erzeugen lassen und <b>jeden Untertitel prüfen</b>.</p></div>
+<div class="step"><strong>04 · Audio</strong><p>Über <b>Audio</b> einen Sprechertext aufnehmen oder passende Musik auswählen. Lautstärke so einstellen, dass Sprache gut verständlich bleibt; Nutzungsrechte beachten.</p></div>
+</div>
+<div class="panel" style="margin-top:18px"><h2>So wird dein Physik-Reel gut</h2><div class="grid"><div><span class="tag">Fachlich korrekt</span><p>Unterscheide Beobachtung und Erklärung. Behaupte nicht, der Bremsweg verdopple sich bei doppelter Geschwindigkeit: Unter gleichen idealisierten Bedingungen vervierfacht er sich näherungsweise.</p></div><div><span class="tag">Gut verständlich</span><p>Hochformat, klare Schrift, gut lesbare Untertitel, wenig Ablenkung und eine passende Lautstärke. Zeige nur Aufnahmen, die du verwenden darfst.</p></div></div><div class="notice">Datenschutz: Keine Gesichter oder Stimmen anderer Personen ohne passende Erlaubnis verwenden. Keine Veröffentlichung ist für diese Übung erforderlich. Die echte CapCut-App kann eigene Datenschutzbedingungen und Online-Funktionen haben.</div></div>
+</section>
+<section id="lab" class="tabpage hidden">
+<div class="panel"><h2>Interaktiver Reel-Planer</h2><p class="muted">Wähle die Bausteine und beobachte, wie sich die Vorschau verändert. Das ist eine Simulation – sie exportiert kein Video.</p><div class="lab"><div class="phone"><div class="screen" aria-label="Vorschau des geplanten Reels"><div class="visual"><span class="symbol" id="videoSymbol">🎥</span><div class="hook" id="hookPreview">Deine Hook erscheint hier</div></div><div class="subtitles hidden" id="subtitlePreview">Bei höherer Geschwindigkeit wächst der Bremsweg.</div><div class="audio hidden" id="audioPreview">♫ Audiospur geplant</div></div></div><div class="editor"><label for="videoSelect">1. Videomotiv</label><select id="videoSelect"><option value="none">Noch kein Video ausgewählt</option><option value="brake">Bremsversuch (Symbolbild)</option><option value="light">Licht und Schatten (Symbolbild)</option><option value="electric">Elektrischer Stromkreis (Symbolbild)</option></select><p class="help">In CapCut: Neues Projekt → Video wählen → Hinzufügen.</p><label for="hookInput">2. Hook am Anfang</label><input id="hookInput" maxlength="90" placeholder="z. B. Warum ist Bremsen bei Tempo 100 riskanter?" autocomplete="off"><p class="help">In CapCut: Text → Text hinzufügen → Dauer anpassen.</p><label>3. Untertitel</label><div class="choice"><button type="button" id="subToggle" aria-pressed="false">Untertitel einblenden</button></div><p class="help">In CapCut: automatische Untertitel erzeugen und auf Fehler prüfen.</p><label>4. Audio</label><div class="choice"><button type="button" id="audioToggle" aria-pressed="false">Audiospur hinzufügen</button></div><p class="help">Die Vorschau zeigt nur ein Symbol. Es wird kein Ton abgespielt oder aufgenommen.</p><div class="status" id="labStatus" aria-live="polite">0 von 4 Bausteinen geplant.</div><button type="button" class="primary" id="labReset">Plan zurücksetzen</button></div></div></div>
+</section>
+
+<footer>Offline-Lernmaterial · Keine Cookies, keine Speicherung, keine Netzwerkzugriffe. Texte, Aufgaben, CSS-Grafiken und Programmcode: eigens für diese Lerneinheit erstellt; Freigabe zur Nutzung und Anpassung im Unterricht. Keine fremden Medien eingebunden. CapCut ist eine Produktbezeichnung des jeweiligen Rechteinhabers. LehrplanPLUS-Bezug: fachlicher Kontext Physik 10 und Medienkompetenz; keine ungeprüften Lehrplanzitate.</footer>
+</main>
+<script>
+'use strict';
+/* Kein Netzwerk, kein Browser-Speicher, keine persönlichen Daten. */
+const $ = (id) => document.getElementById(id);
+const tabs = document.querySelectorAll('[data-tab]');
+tabs.forEach((button) => button.addEventListener('click', () => {
+  tabs.forEach((tab) => tab.setAttribute('aria-selected', String(tab === button)));
+  ['guide','lab'].forEach((id) => $(id).classList.toggle('hidden', id !== button.dataset.tab));
+}));
+/* Reel-Planer: nur DOM-textContent, niemals HTML aus Eingaben erzeugen. */
+let subtitles = false;
+let audio = false;
+function updateLab() {
+  const symbols = {none:'🎥',brake:'🚗',light:'💡',electric:'⚡'};
+  const selectedVideo = $('videoSelect').value;
+  $('videoSymbol').textContent = symbols[selectedVideo];
+  $('hookPreview').textContent = $('hookInput').value.trim() || 'Deine Hook erscheint hier';
+  $('subtitlePreview').classList.toggle('hidden', !subtitles);
+  $('audioPreview').classList.toggle('hidden', !audio);
+  $('subToggle').setAttribute('aria-pressed', String(subtitles));
+  $('audioToggle').setAttribute('aria-pressed', String(audio));
+  $('subToggle').classList.toggle('active', subtitles);
+  $('audioToggle').classList.toggle('active', audio);
+  const count = Number(selectedVideo !== 'none') + Number(Boolean($('hookInput').value.trim())) + Number(subtitles) + Number(audio);
+  $('labStatus').textContent = count + ' von 4 Bausteinen geplant.' + (count === 4 ? ' Super! Jetzt kannst du dein Reel in CapCut umsetzen.' : '');
+}
+$('videoSelect').addEventListener('change', updateLab);
+$('hookInput').addEventListener('input', updateLab);
+$('subToggle').addEventListener('click', () => {subtitles = !subtitles; updateLab();});
+$('audioToggle').addEventListener('click', () => {audio = !audio; updateLab();});
+$('labReset').addEventListener('click', () => {$('videoSelect').value='none'; $('hookInput').value=''; subtitles=false; audio=false; updateLab();});
+updateLab();
+</script>
+</body>
+</html>
