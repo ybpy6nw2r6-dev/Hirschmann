@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; connect-src 'none'; img-src 'none'; media-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'; font-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'">
+<title>Schrägbild eines Prismas – interaktiv</title>
+<style>
+/* Alle Farben und Grafiken sind lokal definiert. */
+:root{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#14243c;background:#f3f7fd;font-size:17px}*{box-sizing:border-box}body{margin:0}main{max-width:1120px;margin:auto;padding:clamp(14px,3vw,32px)}header{background:linear-gradient(115deg,#163d78,#2469a7);color:white;border-radius:22px;padding:25px 30px;margin-bottom:20px}h1{font-size:clamp(1.7rem,4vw,2.7rem);margin:.2em 0}h2{font-size:1.4rem;margin:0 0 12px}p{line-height:1.5}header p{margin:8px 0 0}.tag{display:inline-block;background:#e6f1ff;color:#174c84;padding:5px 11px;border-radius:99px;font-size:.85rem;font-weight:700}.layout{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(280px,.8fr);gap:18px}.panel{background:white;border:1px solid #dbe5f1;border-radius:20px;padding:22px;box-shadow:0 6px 20px #1a45700b;margin-bottom:18px}.drawing{width:100%;height:auto;background:#fff;border:1px solid #e2eaf3;border-radius:14px;touch-action:manipulation}.edge{stroke:#244f86;stroke-width:3;stroke-linejoin:round;stroke-linecap:round;fill:none}.hidden-edge{stroke:#8293a9;stroke-width:2.5;stroke-dasharray:8 7;fill:none}.face{fill:#d8edff;opacity:.45}.point{fill:#173c70}.point-label{fill:#183454;font-size:17px;font-weight:700}.measure{fill:#42668d;font-size:15px}.guide{stroke:#ec9b37;stroke-width:2;stroke-dasharray:5 6;fill:none}.controls{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}button{font:inherit;min-height:48px;border:0;border-radius:12px;padding:11px 18px;background:#1d5d9d;color:white;font-weight:650;cursor:pointer;touch-action:manipulation}button:disabled{opacity:.4;cursor:not-allowed}button.secondary{background:#e8f0fa;color:#194a7b}button:focus-visible,input:focus-visible{outline:3px solid #ffb44b;outline-offset:3px}.step-title{font-size:1.2rem;font-weight:750;margin:12px 0 5px}.muted{color:#52677e}.fraction{display:inline-flex;vertical-align:middle;flex-direction:column;text-align:center;line-height:1.15;margin:0 .15em}.fraction .top{border-bottom:1.5px solid currentColor;padding:0 .2em .13em}.fraction .bottom{padding:.13em .2em 0}.quiz-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.choice{background:#eef4fc;color:#173d70;text-align:left;border:2px solid transparent}.choice.selected{border-color:#1d5d9d;background:#d9eafa}.feedback{min-height:2em;font-weight:650;margin-top:12px}.good{color:#14744c}.bad{color:#a13e28}.stats{display:flex;flex-wrap:wrap;gap:15px;margin-bottom:12px;font-weight:650}.bar{height:18px;background:#e5edf6;border-radius:99px;overflow:hidden;display:flex}.correct-bar{background:#24a878;width:0;transition:width .2s}.wrong-bar{background:#e47c5b;width:0;transition:width .2s}.note{font-size:.9rem;color:#53677e}.counter{font-weight:700;color:#1e5d9a}#tip{border-left:4px solid #f0ad3f;background:#fff8e9;padding:10px 13px;border-radius:8px;margin-top:12px}#tip[hidden]{display:none}@media(max-width:780px){.layout{grid-template-columns:1fr}.panel{padding:16px}.quiz-grid{grid-template-columns:1fr}button{flex:1 1 auto}}@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+/* Linien der Screenshot-orientierten Konstruktion. */
+.grid-line{stroke:#c1c1c1;stroke-width:1.4}
+.baseline{stroke:#f0444b;stroke-width:4}
+.prism-edge{stroke:#454545;stroke-width:4.5;stroke-linecap:round;fill:none}
+</style>
+</head>
+<body>
+<main>
+<header><h1>Schrägbild eines Prismas</h1></header>
+<div class="layout">
+<section class="panel" aria-labelledby="drawing-heading">
+<h2 id="drawing-heading">1 · Konstruktion entdecken</h2>
+<p class="muted">Grundfläche: Dreieck ABC. Die zweite Dreiecksfläche DEF liegt senkrecht darüber.</p>
+<svg id="scene" class="drawing" viewBox="0 0 920 610" role="img" aria-labelledby="svg-title svg-desc">
+<title id="svg-title">Schrittweiser Aufbau eines dreiseitigen Prismas</title><desc id="svg-desc">Dreieck ABC unten, Dreieck DEF oben, senkrechte Verbindungskanten AD, BF und CE.</desc>
+<!-- SVG wird ausschließlich mit lokalem JavaScript und sicheren SVG-Elementen ergänzt. -->
+<g id="drawing-layer"></g>
+</svg>
+<div class="controls"><button id="previous" class="secondary">← Zurück</button><button id="next">Weiter →</button><button id="restart" class="secondary">Von vorn</button></div>
+<p class="counter" id="step-counter" aria-live="polite"></p><div class="step-title" id="step-title"></div><p id="step-description"></p>
+</section>
+<aside class="panel"><h2>2 · Selbst ausprobieren</h2><p>Verändere die Höhe des Prismas. Beobachte, wie sich die senkrechten Kanten verändern.</p><label for="depth">Prismenhöhe: <strong id="depth-value">6 cm</strong></label><input id="depth" type="range" min="2" max="10" step="1" value="6" style="display:block;width:100%;height:44px" aria-label="Prismenhöhe in Zentimetern"></aside>
+</div>
+
+</main>
+<script>
+'use strict';
+/* Keine Netzwerkaufrufe und keine dauerhafte Speicherung. */
+const $ = id => document.getElementById(id);
+const svgNS = 'http://www.w3.org/2000/svg';
+// Eigenständige SVG-Konstruktion nach der vom Nutzer bereitgestellten Abbildung.
+// Alle Punkte sind so gesetzt, dass die Ansicht dem Screenshot entspricht.
+const steps = [
+ ['Schrägbildachse zeichnen','Zeichne zuerst die waagrechte Schrägbildachse als Orientierungslinie.'],
+ ['Dreieck konstruieren','Markiere A und B auf der Achse. Setze C oberhalb der Achse und verbinde A, B und C zur dreieckigen Grundfläche.'],
+ ['Senkrechte Kanten zeichnen','Zeichne von A, B und C aus drei gleich lange, senkrechte Kanten nach oben.'],
+ ['Obere Eckpunkte beschriften','Beschrifte die oberen Endpunkte mit D über A, F über B und E über C.'],
+ ['Obere Grundfläche zeichnen','Verbinde D mit E, E mit F und F mit D. Das Prisma ist nun vollständig.']
+];
+let step = 0;
+function addSvg(tag, attributes, content) {
+ const node = document.createElementNS('http://www.w3.org/2000/svg', tag);
+ for (const [key,value] of Object.entries(attributes)) node.setAttribute(key,String(value));
+ if (content !== undefined) node.textContent = content;
+ $('drawing-layer').appendChild(node);
+ return node;
+}
+function segment(a,b,css){addSvg('line',{x1:a[0],y1:a[1],x2:b[0],y2:b[1],class:css});}
+function point(p,name,dx,dy){
+ addSvg('circle',{cx:p[0],cy:p[1],r:10,fill:'#1875cb',stroke:'#111','stroke-width':2});
+ addSvg('text',{x:p[0]+dx,y:p[1]+dy,fill:'#1768bd','font-size':30,'font-weight':500},name);
+}
+function renderDrawing(){
+ $('drawing-layer').replaceChildren();
+ const height=Number($('depth').value)*43.8;
+ // Dynamischer Bildausschnitt: Auch bei 10 cm bleiben alle Punkte sichtbar.
+ // Die SVG-Ansicht skaliert bei größerer Höhe automatisch passend herunter.
+ const top=Math.min(0,301-height-65);
+ const bottom=610;
+ $('scene').setAttribute('viewBox',`0 ${top} 920 ${bottom-top}`);
+ // Das Gitternetz füllt den gesamten sichtbaren Bereich aus.
+ for(let x=40;x<920;x+=44) segment([x,top],[x,bottom],'grid-line');
+ for(let y=37; y>=top; y-=44) segment([0,y],[920,y],'grid-line');
+ for(let y=81; y<=bottom; y+=44) segment([0,y],[920,y],'grid-line');
+ // Schrägbildachse: schon im ersten Konstruktionsschritt sichtbar.
+ segment([0,476],[920,476],'baseline');
+ const A=[172,476], B=[612,476], C=[348,301];
+ const up=p=>[p[0],p[1]-height];
+ const D=up(A), E=up(C), F=up(B);
+ if(step>=1){
+  addSvg('polygon',{points:[A,B,C].map(p=>p.join(',')).join(' '),fill:'#dcebf8','fill-opacity':'.8'});
+  segment(A,B,'prism-edge');segment(B,C,'prism-edge');segment(C,A,'prism-edge');
+  point(A,'A',16,40);point(B,'B',10,-19);point(C,'C',8,-18);
+ }
+ if(step>=2){segment(A,D,'prism-edge');segment(B,F,'prism-edge');segment(C,E,'prism-edge');}
+ if(step>=3){point(D,'D',8,-18);point(E,'E',18,-7);point(F,'F',8,-18);}
+ if(step>=4){segment(D,E,'prism-edge');segment(E,F,'prism-edge');segment(F,D,'prism-edge');
+  // Eckpunkte zuletzt erneut zeichnen, damit die Punkte über den Linien liegen.
+  point(D,'D',8,-18);point(E,'E',18,-7);point(F,'F',8,-18);
+ }
+ $('step-counter').textContent=`Schritt ${step+1} von ${steps.length}`;
+ $('step-title').textContent=steps[step][0];
+ $('step-description').textContent=steps[step][1];
+ $('previous').disabled=step===0;
+ $('next').disabled=step===steps.length-1;
+ $('depth-value').textContent=Number($('depth').value)+' cm';
+}
+$('previous').addEventListener('click',()=>{step=Math.max(0,step-1);renderDrawing();});
+$('next').addEventListener('click',()=>{step=Math.min(steps.length-1,step+1);renderDrawing();});
+$('restart').addEventListener('click',()=>{step=0;renderDrawing();});
+$('depth').addEventListener('input',renderDrawing);
+renderDrawing();
+</script>
+</body>
+</html>
